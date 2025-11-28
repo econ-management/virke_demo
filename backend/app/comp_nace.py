@@ -14,8 +14,8 @@ def db_get_comp_nace(nace, bed_oms):
     cur.execute(f"""
     SELECT orgnr, driftsinntekter_sum, ebit FROM core_facts.proff_regnskap 
     WHERE year = 2024
-    AND driftsinntekter_sum > 5000000
-    OR driftsinntekter_sum > {0.5*bed_oms}
+    AND (driftsinntekter_sum > 5000000
+    OR driftsinntekter_sum > {0.5*bed_oms})
     and orgnr in (SELECT orgnr FROM core_attr.brreg_enheter WHERE naring1_kode = '{nace}')
     """)
     result = cur.fetchall()

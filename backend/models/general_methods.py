@@ -1,6 +1,7 @@
 import urllib.parse
 
 def raw_url_conv(raw_url):
+    raw_url = raw_url.replace("%40", "@")
     parsed = urllib.parse.urlparse(raw_url)
     if parsed.password:
         # Reconstruct with properly encoded password
