@@ -1,0 +1,31 @@
+.sidebar {
+  width: 280px;
+  background-color: var(--color-base-gronn);
+  padding: var(--spacing-lg);
+  min-height: calc(100vh - 200px);
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  color: var(--color-text-black);
+  text-decoration: none;
+  font-weight: bold;
+  padding: var(--spacing-sm);
+  transition: background-color 0.2s;
+  border-radius: 4px;
+  display: block;
+}
+
+.navLink:hover {
+  background-color: var(--color-white);
+}
+

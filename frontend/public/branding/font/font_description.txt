@@ -1,0 +1,15 @@
+Typografi
+Vår profilfont skal gjenspeile en tydelig stemme og god lesbarhet i alle kanaler er et krav, derfor er riktig bruk av størrelser og tykkelse på typografi viktig.
+
+Profilfont
+Clan er Virkes profilfont og benyttes i to ulike vekter, Clan Bold og Clan News. Fonten skal fremstå som tydelig og frempå i uttrykket og være god lesbar i alle kanaler. Korte formuleringer og direkte budskap i kombinasjon med stor og bold typografi er derfor viktig.
+Gjennomgående skal kun små bokstaver benyttes (vi skriver ikke ord med kun store bokstaver) og all tekst skal også venstrestilles for optimal lesbarhet, med unntak av titler og korte faktatekster som kan sentreres.
+
+Clan Bold
+Bold benyttes for å tydeligjøre budskap og skille innhold. Benyttes på overskrifter, mellomtitler, korte faktatekster og uthevet brødtekst.
+
+Clan News
+Benyttes på all øvig tekst.
+
+Erstatningsfont
+Arial er profilens erstatningsfont og skal benyttes i eksempelvis nyhetsbrev, epost-signaturer og presentasjoner hvor Clan ikke støttes.

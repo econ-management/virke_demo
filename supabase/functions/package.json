@@ -1,0 +1,11 @@
+{
+  "name": "supabase-functions",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.82.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10"
+  }
+}

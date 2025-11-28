@@ -1,0 +1,12 @@
+.twoColumn {
+  flex: 1;
+  padding: var(--spacing-xl) var(--container-padding);
+  background-color: var(--color-white);
+  min-width: 0;
+  margin: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+

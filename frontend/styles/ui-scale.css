@@ -1,0 +1,19 @@
+/* Global UI scaling system for proportional dashboards */
+
+:root {
+  --ui-design-width: 1600px; /* base design width */
+  --ui-scale: calc(100vw / 1600);
+}
+
+.ui-scale {
+  transform: scale(var(--ui-scale));
+  transform-origin: top center;
+  width: 1600px;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  image-rendering: optimizeQuality;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+

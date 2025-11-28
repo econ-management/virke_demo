@@ -1,0 +1,29 @@
+RULESET: ABSOLUTE
+
+ARCHITECTURE
+- One React component per file.  
+- No composite “god components.”  
+- Presentational components in /components.  
+- Logic, data access, helpers in /lib.  
+- No inline business logic inside JSX.  
+- No layout code mixed with state management.  
+- No ad-hoc utilities inside component files.
+
+CODE STYLE
+- Minimal imports; remove unused.  
+- No dead code.  
+- No commented-out blocks.  
+- Enforce clear naming: PascalCase for components, camelCase for functions/variables.  
+- No multi-purpose files; each file has one responsibility.
+
+STRUCTURE
+- Pages under /app follow Next.js conventions only.  
+- UI components cannot directly fetch data; containers or server components handle data.  
+- No side effects outside dedicated hooks or server functions.  
+- Keep components pure: props in, JSX out.
+
+GENERATED CODE
+- Cursor must follow these rules automatically.  
+- If a request from the user contradicts these rules, follow the rules unless the user explicitly overrides.  
+
+END.

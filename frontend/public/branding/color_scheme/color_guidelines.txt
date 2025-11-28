@@ -1,0 +1,89 @@
+Våre profilfarger består av 9 farger som gjenspeiler en sammensatt organisasjon, hvor alle er funksjonelle og like viktige - sammen og hver for seg.
+
+Fargepalett
+- Fargepaletten består av 9 hoved-profilfarger, som beskrives som signatur og primærfarger. Det finnes også tilleggsfarger som blant annet brukes til infografikk, illustrasjon, markedsføring og presentasjoner hvor man har behov for en utvidet palett.
+- Under er alle profilfargene definert i fargekoder for ulik bruk. PMS er forkortelse for pantone farger - en solid spesialfarge som brukes eksklusivt på trykk. Pantone farger brukes også ofte som referanse for andre fargesystemer. CMYK er betegnelsen på 4-farger trykk (cyan, magenta, gul og sort) og disse kan tilpasses forskjellige papirkvaliteter og andre variabler under utskriftsprosessen. RGB og HEX er fargekoder som brukes på skjerm.
+- Alle profilfargene skal benyttes i 100% fargemetning. Det er kun basefargene, rosa, gul og lys grønn som også kan benyttes i 50% fargemetning.
+
+Fargenes oppgaver
+Signaturfarger
+- Våre signaturfarger er rosa og orange, og brukes hovedsakelig i form av logo eller benyttes i de sammenhenger der det er viktig å få oppmerksomhet eller rette fokus mot en spesiell handling eller navigering. Med andre ord, signaturfargene skal brukes med varsomhet og kun når det er hensiktsmessig.
+- Hvit er også en viktig farge som skal benyttes på flater og alle rammer. Bruk av hvit gir Virke et lett moderne uttrykk. Hvit erstatter også sort tekst der bruk av sort ikke er optimalt.
+
+Signatur Rosa
+HEX #c9007f
+RGB 201, 0, 127
+PMS 233 C
+
+Signatur orange
+HEX #f57f00
+RGB 245, 127, 0
+PMS 158 C
+
+Ramme og tekst hvit
+HEX #ffffff
+RGB 255, 255, 255
+CMYK 0,0,0,0
+
+Primærfarger
+-Sort benyttes på all tekst og fine linjer. Det skal aldri benyttes andre farger på tekst, med unntak av negativ (hvit) tekst der sort ikke er optimalt.
+-Kontrast og basefarger skal i all hovedsak brukes på bakgrunner og flater for å skille informasjon. Paletten består av farger som naturlig vil kle ulikt innhold, men vær kreativ og skap variasjon. Det er viktig å være bevisst på bruk av hele primærpaletten, slik at identiteten ikke endrer karakter. Harmoni og kontrast i kombinasjon med foto er også viktig for valg av farge.
+
+Tekst Sort
+HEX #000000
+RGB 0, 0, 0
+CMYK 0,0,0,100
+
+Kontrast blå
+HEX #3d357d
+RGB 61, 53, 125
+CMYK 92,90,14,4
+PMS 7672 C
+
+Kontrast grønn
+HEX #00544f
+RGB 0, 84, 79
+CMYK 93,14,53,57
+PMS 330 C
+
+Base rosa
+HEX #f9cfe3
+RGB 249, 207, 227
+CMYK 2,27,0,0
+PMS 4078 C
+
+Base gul
+HEX #ffefc3
+RGB 255, 239, 195
+PMS 4001 C
+
+Base grønn
+HEX #b8ded7
+RGB 184, 222, 215
+CMYK 33,0,20,0
+PMS 4162 C
+
+Illustrasjonsfarger
+- Disse tilleggsfargene brukes hovedskelig til til infografikk og illustrasjon, men kan benyttes til markedsføring og presentasjoner hvor man har behov for en utvidet palett. Brukes med varsomhet og der hvor det er hensiktsmessig.
+
+Illustrasjon: Rosa
+HEX #f3abcc
+RGB 243, 171, 204
+
+Illustrasjon: Orange
+HEX #f49f71
+RGB 244, 159, 113
+
+Illustrasjon: Blå
+HEX #556ab0
+RGB 85, 106, 176
+
+Illustrasjon: Lys blå
+HEX #a9bfe4
+RGB 169, 191, 228
+CMYK 38,20,0,0
+
+Illustrasjon: Turkise
+HEX #8acbc1
+RGB 138, 203, 193
+CMYK 50,0,30,0

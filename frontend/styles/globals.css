@@ -1,0 +1,75 @@
+@font-face {
+  font-family: 'Clan';
+  src: url('/branding/font/font_files/clan-pro-cufonfonts/FFClanProBold.TTF') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clan';
+  src: url('/branding/font/font_files/clan-pro-cufonfonts/FFClanProRgNews.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-signature-rosa: #c9007f;
+  --color-signature-orange: #f57f00;
+  --color-white: #ffffff;
+  --color-text-black: #000000;
+  --color-contrast-blue: #3d357d;
+  --color-contrast-green: #00544f;
+  --color-base-rosa: #f9cfe3;
+  --color-base-gul: #ffefc3;
+  --color-base-gronn: #b8ded7;
+  
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-2xl: 4rem;
+  
+  --container-max-width: 1200px;
+  --container-padding: 2rem;
+  --section-vertical-spacing: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  overflow-x: auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Clan', Arial, sans-serif;
+  font-weight: normal;
+  color: var(--color-text-black);
+  background-color: var(--color-white);
+  text-align: left;
+  display: flex;
+  justify-content: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Clan', Arial, sans-serif;
+  font-weight: bold;
+  color: var(--color-text-black);
+}
+
+
