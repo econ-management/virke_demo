@@ -125,5 +125,3 @@ def get_comp_nace(nace):
             "stats": omsetning_stats
         }
     }
-
-com = get_comp_nace("72.200")

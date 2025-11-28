@@ -42,5 +42,3 @@ def get_brreg_data_orgnr(orgnr):
     data = df.to_dict(orient="records")
     return data
 
-
-get_brreg_data_orgnr(977213193)
