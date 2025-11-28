@@ -15,6 +15,7 @@ CODE STYLE
 - No commented-out blocks.  
 - Enforce clear naming: PascalCase for components, camelCase for functions/variables.  
 - No multi-purpose files; each file has one responsibility.
+- Do not add edge case handling as default
 
 STRUCTURE
 - Pages under /app follow Next.js conventions only.  
