@@ -30,7 +30,21 @@ export const KpiHistogram = ({ compData, regnskap, metric }: KpiHistogramProps) 
 
   const getMarkerValue = (): number | undefined => {
     const latestRegnskap = regnskap?.find((item) => item.year === 2024);
-    if (!latestRegnskap) return undefined;
+    if (!latestRegnskap) {
+      const latestAny = regnskap && regnskap.length > 0 
+        ? regnskap.reduce((latest, current) => 
+            current.year > latest.year ? current : latest
+          )
+        : null;
+      if (!latestAny) return undefined;
+      
+      if (metric === 'Driftsmargin') {
+        return latestAny.driftsmargin;
+      } else if (metric === 'Omsetning') {
+        return latestAny.omsetning;
+      }
+      return undefined;
+    }
 
     if (metric === 'Driftsmargin') {
       return latestRegnskap.driftsmargin;

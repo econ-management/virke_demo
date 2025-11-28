@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
@@ -40,14 +41,7 @@ export default async function KpiPage() {
     getBrregDataOrgnr(orgnr)
   ]);
 
-  let compData = null;
-  if (brreg && brreg.length > 0 && brreg[0].naring1_kode) {
-    try {
-      compData = await getCompByNace(brreg[0].naring1_kode);
-    } catch (error) {
-      console.error('Error fetching comp data:', error);
-    }
-  }
+  const nace = brreg && brreg.length > 0 && brreg[0].naring1_kode ? brreg[0].naring1_kode : null;
 
   return (
     <div className={pageStyles.page}>
@@ -59,11 +53,23 @@ export default async function KpiPage() {
         <TwoColumnSection>
           {/* LEFT COLUMN */}
           <div>
-            <KpiPageContent 
-              kpiOptions={kpiOptionsList} 
-              regnskap={regnskap || []}
-              compData={compData}
-            />
+            {nace ? (
+              <Suspense fallback={
+                <KpiPageContent 
+                  kpiOptions={kpiOptionsList} 
+                  regnskap={regnskap || []}
+                  compData={null}
+                />
+              }>
+                <CompDataWrapper nace={nace} regnskap={regnskap || []} />
+              </Suspense>
+            ) : (
+              <KpiPageContent 
+                kpiOptions={kpiOptionsList} 
+                regnskap={regnskap || []}
+                compData={null}
+              />
+            )}
           </div>
 
           {/* RIGHT COLUMN */}
@@ -73,5 +79,16 @@ export default async function KpiPage() {
 
       <Footer />
     </div>
+  );
+}
+
+async function CompDataWrapper({ nace, regnskap }: { nace: string; regnskap: any[] }) {
+  const compData = await getCompByNace(nace);
+  return (
+    <KpiPageContent 
+      kpiOptions={kpiOptionsList} 
+      regnskap={regnskap}
+      compData={compData}
+    />
   );
 }

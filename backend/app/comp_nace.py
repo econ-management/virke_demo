@@ -8,13 +8,14 @@ import numpy as np
 
 econm_url = raw_url_conv(os.getenv("ECONM_DB_URL"))
 
-def db_get_comp_nace(nace):
+def db_get_comp_nace(nace, bed_oms):
     conn = psycopg2.connect(econm_url)
     cur = conn.cursor()
     cur.execute(f"""
     SELECT orgnr, driftsinntekter_sum, ebit FROM core_facts.proff_regnskap 
     WHERE year = 2024
-    AND driftsinntekter_sum > 0
+    AND driftsinntekter_sum > 5000000
+    OR driftsinntekter_sum > {0.5*bed_oms}
     and orgnr in (SELECT orgnr FROM core_attr.brreg_enheter WHERE naring1_kode = '{nace}')
     """)
     result = cur.fetchall()
@@ -44,34 +45,40 @@ egenkapital, opptjent_egenkapital_sum, langsiktig_gjeld_sum, leverandorgjeld, ko
 """
 
 
-def make_hist(series, bins=19):
+def make_hist(series, bins=19, min_value=None):
     values = series.dropna().to_numpy()
     if values.size == 0:
         return []
 
-    # Q25, median, Q75
     q25 = np.quantile(values, 0.25)
     q75 = np.quantile(values, 0.75)
-    mid = np.quantile(values, 0.5)  # median
+    mid = np.quantile(values, 0.5)
 
-    # total bins = bins
-    # one bin is the center bin
-    # remaining bins-1 split evenly on left and right side
     if bins % 2 == 0:
         raise ValueError("bins must be odd so you have a true center bin.")
 
-    half = bins // 2  # number of bins on each side of center
-
-    # width determined by IQR region expanded to N/2 bins
+    half = bins // 2
     width = (q75 - q25) / half if half > 0 else (q75 - q25)
 
-    # build bin edges around mid
-    edges = [mid + (i - half) * width for i in range(bins + 1)]
+    # fallback: if IQR is zero, avoid collapsing to zero-width bins
+    if width == 0:
+        width = 1e-9
 
-    # assign data into bins
+    # build initial edges around median
+    edges = np.array([mid + (i - half) * width for i in range(bins + 1)])
+
+    # 🔥 clamp lower bound to min_value IF provided
+    if min_value is not None:
+        edges = np.maximum(edges, min_value)
+
+        # ensure edges remain strictly increasing after clamping
+        # (if clamping flattened the left side)
+        for i in range(1, len(edges)):
+            if edges[i] <= edges[i-1]:
+                edges[i] = edges[i-1] + 1e-9
+
     hist, _ = np.histogram(values, bins=edges)
 
-    # convert to structured list
     out = []
     for i in range(bins):
         out.append({
@@ -98,8 +105,8 @@ def make_stats(series):
         "std": float(values.std())
     }
 
-def get_comp_nace(nace):
-    df = db_get_comp_nace(nace)
+def get_comp_nace(nace, bed_oms=5000000):
+    df = db_get_comp_nace(nace, bed_oms)
     df = df.rename(columns={"driftsinntekter_sum": "omsetning"})
     df["driftsmargin"] = df["ebit"] / df["omsetning"]
 
@@ -109,7 +116,7 @@ def get_comp_nace(nace):
         return {"error": "No data found"}
 
     driftsmargin_hist = make_hist(df["driftsmargin"], bins=19)
-    omsetning_hist = make_hist(df["omsetning"], bins=19)
+    omsetning_hist = make_hist(df["omsetning"], bins=19, min_value=0)
 
     driftsmargin_stats = make_stats(df["driftsmargin"])
     omsetning_stats = make_stats(df["omsetning"])

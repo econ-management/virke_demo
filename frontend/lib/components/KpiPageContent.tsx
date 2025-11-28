@@ -22,21 +22,16 @@ interface KpiPageContentProps {
 
 export const KpiPageContent = ({ kpiOptions, regnskap, compData }: KpiPageContentProps) => {
   const [selectedChip, setSelectedChip] = useState<string>(kpiOptions[0]?.label || '');
-  const [selectedMetric, setSelectedMetric] = useState<string>('');
-
-  useEffect(() => {
-    if (kpiOptions.length > 0 && !selectedChip) {
-      const firstOption = kpiOptions[0];
-      setSelectedChip(firstOption.label);
-      if (firstOption.metrics.length > 0) {
-        setSelectedMetric(firstOption.metrics[0]);
-      }
-    }
-  }, [kpiOptions, selectedChip]);
+  const [selectedMetric, setSelectedMetric] = useState<string>(
+    kpiOptions[0]?.metrics[0] || ''
+  );
 
   const handleSelect = (selected: string, metric?: string) => {
     setSelectedChip(selected);
-    setSelectedMetric(metric || '');
+    
+    if (metric) {
+      setSelectedMetric(metric);
+    }
   };
 
   const displayTitle = selectedMetric || selectedChip;

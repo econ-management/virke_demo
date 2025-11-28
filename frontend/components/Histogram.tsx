@@ -43,8 +43,10 @@ export const Histogram = ({ data, title, xAxisFormat = 'numeric', markerValue }:
 
   const getMarkerPosition = (): number | null => {
     if (markerValue === undefined || markerValue === null) return null;
-    if (markerValue < minValue || markerValue > maxValue) return null;
-    const ratio = (markerValue - minValue) / (maxValue - minValue);
+    if (maxValue === minValue) return 50;
+    
+    const clampedValue = Math.max(minValue, Math.min(markerValue, maxValue));
+    const ratio = (clampedValue - minValue) / (maxValue - minValue);
     return ratio * 100;
   };
 
