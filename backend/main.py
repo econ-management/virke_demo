@@ -5,7 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.routers import regnskap, brreg_data, comp_by_nace
 
 app = FastAPI()
-
+@app.get("/")
+def root():
+    return {"status": "ok"}
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

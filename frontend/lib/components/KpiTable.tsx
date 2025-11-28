@@ -1,14 +1,15 @@
-import { getRegnskapOrgnr } from '../api/getRegnskapOrgnr';
 import { Table } from '../../components/Table';
 
-interface KpiTableSectionProps {
-  orgnr: string;
+interface KpiTableProps {
+  regnskap: Array<{
+    year: number;
+    driftsmargin: number;
+    omsetning: number;
+  }>;
   metric: string;
 }
 
-export async function KpiTableSection({ orgnr, metric }: KpiTableSectionProps) {
-  const regnskap = await getRegnskapOrgnr(orgnr);
-
+export const KpiTable = ({ regnskap, metric }: KpiTableProps) => {
   if (!regnskap || regnskap.length === 0) {
     return <p>Ingen regnskapsdata tilgjengelig.</p>;
   }
@@ -35,10 +36,10 @@ export async function KpiTableSection({ orgnr, metric }: KpiTableSectionProps) {
 
   return (
     <Table
-      columns={regnskap.map((item: any) => item.year.toString())}
-      values={[regnskap.map((item: any) => getMetricValue(item))]}
+      columns={regnskap.map((item) => item.year.toString())}
+      values={[regnskap.map((item) => getMetricValue(item))]}
       formats={regnskap.map(() => format)}
     />
   );
-}
+};
 

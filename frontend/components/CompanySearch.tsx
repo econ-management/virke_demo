@@ -47,6 +47,17 @@ export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
   }, [value]);
 
   useEffect(() => {
+    if (allResults.length > 0 && value.trim()) {
+      const matchingCompany = allResults.find(
+        (company) => company.navn.toLowerCase() === value.toLowerCase().trim()
+      );
+      if (matchingCompany && !selectedCompany) {
+        handleSelect(matchingCompany);
+      }
+    }
+  }, [allResults, value]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
@@ -124,6 +135,18 @@ export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
     lastFirstTwoLetters.current = '';
   };
 
+  const handleBlur = () => {
+    if (value.trim()) {
+      const matchingCompany = allResults.find(
+        (company) => company.navn.toLowerCase() === value.toLowerCase().trim()
+      );
+      if (matchingCompany) {
+        handleSelect(matchingCompany);
+      }
+    }
+    setIsOpen(false);
+  };
+
   return (
     <div ref={containerRef} className={styles.container}>
       <input
@@ -141,6 +164,7 @@ export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
           }
         }}
         onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
         onFocus={() => {
           if (filteredResults.length > 0) {
             setIsOpen(true);

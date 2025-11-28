@@ -17,12 +17,24 @@ export const Table = ({ columns, values, formats }: TableProps) => {
 
   const formatValue = (value: number, columnIndex: number): string => {
     const format = formats?.[columnIndex] || 'numeric';
-    const isInteger = Number.isInteger(value);
 
     if (format === 'percentage') {
       return `${(value * 100).toFixed(1)}%`;
     }
 
+    if (format === 'numeric') {
+      if (value >= 1000000000) {
+        return `${(value / 1000000000).toFixed(1)} mrd. kr`;
+      } else if (value >= 1000000) {
+        return `${(value / 1000000).toFixed(1)} mill. kr`;
+      } else if (value >= 1000) {
+        return `${(value / 1000).toFixed(1)} tusen kr`;
+      }
+      const isInteger = Number.isInteger(value);
+      return isInteger ? value.toString() : value.toFixed(2);
+    }
+
+    const isInteger = Number.isInteger(value);
     return isInteger ? value.toString() : value.toFixed(2);
   };
 
@@ -32,6 +44,17 @@ export const Table = ({ columns, values, formats }: TableProps) => {
     
     if (format === 'percentage') {
       return `${(average * 100).toFixed(1)}%`;
+    }
+    
+    if (format === 'numeric') {
+      if (average >= 1000000000) {
+        return `${(average / 1000000000).toFixed(1)} mrd. kr`;
+      } else if (average >= 1000000) {
+        return `${(average / 1000000).toFixed(1)} mill. kr`;
+      } else if (average >= 1000) {
+        return `${(average / 1000).toFixed(1)} tusen kr`;
+      }
+      return average.toFixed(2);
     }
     
     return average.toFixed(2);

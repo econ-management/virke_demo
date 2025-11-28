@@ -1,14 +1,12 @@
-import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { TwoColumnSection } from "../../components/TwoColumnSection";
 import { Footer } from "../../components/Footer";
-import { TableSectionSkeleton } from "../../components/TableSectionSkeleton";
-import { HistogramSectionSkeleton } from "../../components/HistogramSectionSkeleton";
-import { KpiTableSection } from "../../lib/components/KpiTableSection";
-import { KpiHistogramSection } from "../../lib/components/KpiHistogramSection";
 import { KpiPageContent } from "../../lib/components/KpiPageContent";
+import { getRegnskapOrgnr } from "../../lib/api/getRegnskapOrgnr";
+import { getBrregDataOrgnr } from "../../lib/api/getBrregDataOrgnr";
+import { getCompByNace } from "../../lib/api/getCompByNace";
 import { kpiOptionsList } from "../../lib/config/kpiOptions";
 import pageStyles from "../page.module.css";
 
@@ -37,6 +35,20 @@ export default async function KpiPage() {
     );
   }
 
+  const [regnskap, brreg] = await Promise.all([
+    getRegnskapOrgnr(orgnr),
+    getBrregDataOrgnr(orgnr)
+  ]);
+
+  let compData = null;
+  if (brreg && brreg.length > 0 && brreg[0].naring1_kode) {
+    try {
+      compData = await getCompByNace(brreg[0].naring1_kode);
+    } catch (error) {
+      console.error('Error fetching comp data:', error);
+    }
+  }
+
   return (
     <div className={pageStyles.page}>
       <Header />
@@ -47,15 +59,11 @@ export default async function KpiPage() {
         <TwoColumnSection>
           {/* LEFT COLUMN */}
           <div>
-            <KpiPageContent kpiOptions={kpiOptionsList}>
-              <Suspense fallback={<TableSectionSkeleton />}>
-                <KpiTableSection orgnr={orgnr} />
-              </Suspense>
-
-              <Suspense fallback={<HistogramSectionSkeleton />}>
-                <KpiHistogramSection orgnr={orgnr} />
-              </Suspense>
-            </KpiPageContent>
+            <KpiPageContent 
+              kpiOptions={kpiOptionsList} 
+              regnskap={regnskap || []}
+              compData={compData}
+            />
           </div>
 
           {/* RIGHT COLUMN */}
