@@ -63,7 +63,7 @@ export default async function KpiPage() {
                 {compData?.driftsmargin?.hist && compData.driftsmargin.hist.length > 0 && (
                   <Histogram
                     data={compData.driftsmargin.hist}
-                    title="Driftsmargin distribusjon"
+                    title="Driftsmarginer 2024 i din bransje"
                     xAxisFormat="percentage"
                     markerValue={regnskap?.find((item: any) => item.year === 2024)?.driftsmargin}
                   />
