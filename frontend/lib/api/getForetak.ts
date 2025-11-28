@@ -1,2 +1,2 @@
-export { getForetak } from '../../../supabase/functions/get-foretak';
+export { getForetak } from '../../supabase/functions/get-foretak';
 
