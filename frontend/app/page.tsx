@@ -12,12 +12,21 @@ import landingStyles from './landing.module.css';
 
 export default function LandingPage() {
   const [selectedCompany, setSelectedCompany] = useState<{ orgnr: number; navn: string } | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     // Clear the selectedOrgnr cookie when landing page loads
     document.cookie = 'selectedOrgnr=; path=/; max-age=0';
   }, []);
+
+  const handleContinue = () => {
+    if (selectedCompany && !isNavigating) {
+      setIsNavigating(true);
+      document.cookie = `selectedOrgnr=${selectedCompany.orgnr}; path=/; max-age=3600`;
+      router.push('/kpi');
+    }
+  };
 
   const interestOptions = ['Lønnsomhet', 'Vekst', 'Trender', 'Effektivisering', 'Organisasjon'];
 
@@ -36,15 +45,10 @@ export default function LandingPage() {
         />
         <button
           className={landingStyles.button}
-          onClick={() => {
-            if (selectedCompany) {
-              document.cookie = `selectedOrgnr=${selectedCompany.orgnr}; path=/; max-age=3600`;
-              router.push('/kpi');
-            }
-          }}
-          disabled={!selectedCompany}
+          onClick={handleContinue}
+          disabled={!selectedCompany || isNavigating}
         >
-          Fortsett
+          {isNavigating ? 'Laster...' : 'Fortsett'}
         </button>
       </MainSection>
       <Footer />
