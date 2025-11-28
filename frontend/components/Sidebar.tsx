@@ -3,12 +3,20 @@ import styles from './Sidebar.module.css';
 import { SidebarCompanyInfo } from '../lib/components/SidebarCompanyInfo';
 import { CompanyInfo } from './CompanyInfo';
 
-export const Sidebar = () => {
+interface SidebarProps {
+  orgnr?: string;
+}
+
+export const Sidebar = ({ orgnr }: SidebarProps) => {
   return (
     <aside className={styles.sidebar}>
-      <Suspense fallback={<CompanyInfo />}>
-        <SidebarCompanyInfo />
-      </Suspense>
+      {orgnr ? (
+        <Suspense fallback={<CompanyInfo />}>
+          <SidebarCompanyInfo orgnr={orgnr} />
+        </Suspense>
+      ) : (
+        <CompanyInfo />
+      )}
     </aside>
   );
 };

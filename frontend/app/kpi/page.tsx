@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { cookies } from "next/headers";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { TwoColumnSection } from "../../components/TwoColumnSection";
@@ -13,16 +12,21 @@ import pageStyles from "../page.module.css";
 
 export const dynamic = "force-dynamic";
 
-export default async function KpiPage() {
-  const cookieStore = await cookies();
-  const orgnr = cookieStore.get("selectedOrgnr")?.value;
+interface KpiPageProps {
+  searchParams: {
+    orgnr?: string;
+  };
+}
+
+export default async function KpiPage({ searchParams }: KpiPageProps) {
+  const orgnr = searchParams.orgnr;
 
   if (!orgnr) {
     return (
       <div className={pageStyles.page}>
         <Header />
         <div className={pageStyles.content}>
-          <Sidebar />
+          <Sidebar orgnr={orgnr} />
           <TwoColumnSection>
             <div>
               <h1>KPI side</h1>
@@ -48,7 +52,7 @@ export default async function KpiPage() {
       <Header />
 
       <div className={pageStyles.content}>
-        <Sidebar />
+        <Sidebar orgnr={orgnr} />
 
         <TwoColumnSection>
           {/* LEFT COLUMN */}

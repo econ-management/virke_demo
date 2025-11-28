@@ -1,12 +1,12 @@
-import { cookies } from 'next/headers';
 import { getBrregDataOrgnr } from '../api/getBrregDataOrgnr';
 import { getRegnskapOrgnr } from '../api/getRegnskapOrgnr';
 import { CompanyInfo } from '../../components/CompanyInfo';
 
-export async function SidebarCompanyInfo() {
-  const cookieStore = await cookies();
-  const orgnr = cookieStore.get('selectedOrgnr')?.value;
+interface SidebarCompanyInfoProps {
+  orgnr: string;
+}
 
+export async function SidebarCompanyInfo({ orgnr }: SidebarCompanyInfoProps) {
   if (!orgnr) {
     return <CompanyInfo />;
   }
