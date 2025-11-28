@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '../components/Header';
 import { MainSection } from '../components/MainSection';
@@ -13,6 +13,11 @@ import landingStyles from './landing.module.css';
 export default function LandingPage() {
   const [selectedCompany, setSelectedCompany] = useState<{ orgnr: number; navn: string } | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    // Clear the selectedOrgnr cookie when landing page loads
+    document.cookie = 'selectedOrgnr=; path=/; max-age=0';
+  }, []);
 
   const interestOptions = ['Lønnsomhet', 'Vekst', 'Trender', 'Effektivisering', 'Organisasjon'];
 
