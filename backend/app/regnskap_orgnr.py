@@ -38,6 +38,6 @@ def get_regnskap_orgnr(orgnr):
 
     if df.empty:
         return {"error": "No data found"}
-
+    df = df.fillna(0)
     data = df.to_dict(orient="records")
     return data

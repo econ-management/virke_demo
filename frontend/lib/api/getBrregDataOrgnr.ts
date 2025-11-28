@@ -5,6 +5,7 @@ export async function getBrregDataOrgnr(orgnr: string): Promise<{
     naring1_beskrivelse: string;
     ansatte: number;
     kommune: string;
+    siste_regnsk: number;
   }[]> {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     console.log(`getBrregDataOrgnr: Fetching from ${apiUrl}/api/brreg_data/${orgnr}`);

@@ -34,7 +34,7 @@ def db_get_brreg_data_orgnr(orgnr):
 def get_brreg_data_orgnr(orgnr):
     df = db_get_brreg_data_orgnr(orgnr)
     df = df[['orgnr', 'navn', 'naring1_kode', 'naring1_beskrivelse',
-             'ansatte', 'har_ansatte', 'kommune']].copy()
+             'ansatte', 'har_ansatte', 'kommune', 'siste_regnsk']].copy()
 
     if df.empty:
         return {"error": "No data found"}

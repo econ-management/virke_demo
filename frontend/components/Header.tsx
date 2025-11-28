@@ -16,9 +16,6 @@ export const Header = () => {
           />
         </Link>
         <nav className={styles.nav}>
-          <Link href="/" className={styles.navLink}>
-            Landingsside
-          </Link>
           <Link href="/kpi" className={styles.navLink}>
             KPI
           </Link>

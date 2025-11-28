@@ -1,20 +1,14 @@
-import Link from 'next/link';
+import { Suspense } from 'react';
 import styles from './Sidebar.module.css';
+import { SidebarCompanyInfo } from '../lib/components/SidebarCompanyInfo';
+import { CompanyInfo } from './CompanyInfo';
 
 export const Sidebar = () => {
   return (
     <aside className={styles.sidebar}>
-      <nav className={styles.nav}>
-        <Link href="/kpi" className={styles.navLink}>
-          KPI
-        </Link>
-        <Link href="/vekst" className={styles.navLink}>
-          Vekst
-        </Link>
-        <Link href="/effektivisering" className={styles.navLink}>
-          Effektivisering
-        </Link>
-      </nav>
+      <Suspense fallback={<CompanyInfo />}>
+        <SidebarCompanyInfo />
+      </Suspense>
     </aside>
   );
 };

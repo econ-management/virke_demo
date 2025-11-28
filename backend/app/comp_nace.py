@@ -8,7 +8,6 @@ import numpy as np
 
 econm_url = raw_url_conv(os.getenv("ECONM_DB_URL"))
 
-
 def db_get_comp_nace(nace):
     conn = psycopg2.connect(econm_url)
     cur = conn.cursor()

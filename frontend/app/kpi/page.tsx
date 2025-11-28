@@ -4,6 +4,7 @@ import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { TwoColumnSection } from "../../components/TwoColumnSection";
 import { Footer } from "../../components/Footer";
+import { KpiSelector } from "../../components/KpiSelector";
 import { TableSectionSkeleton } from "../../components/TableSectionSkeleton";
 import { HistogramSectionSkeleton } from "../../components/HistogramSectionSkeleton";
 import { KpiTableSection } from "../../lib/components/KpiTableSection";
@@ -45,6 +46,7 @@ export default async function KpiPage() {
         <TwoColumnSection>
           {/* LEFT COLUMN */}
           <div>
+            <KpiSelector options={['Lønnsomhet', 'Aktivitet', 'Kostnader']} />
             <h1>KPI side</h1>
 
             <Suspense fallback={<TableSectionSkeleton />}>

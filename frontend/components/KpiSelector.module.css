@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-md);
+}
+
+.chip {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 2px solid var(--color-text-black);
+  background-color: var(--color-white);
+  color: var(--color-text-black);
+  font-family: 'Clan', Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: normal;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  background-color: var(--color-base-rosa);
+  border-color: var(--color-signature-rosa);
+}
+
+.chip.selected {
+  background-color: var(--color-signature-rosa);
+  color: var(--color-white);
+  border-color: var(--color-signature-rosa);
+  font-weight: bold;
+}
+
+.chip:focus {
+  outline: 2px solid var(--color-signature-rosa);
+  outline-offset: 2px;
+}
+
