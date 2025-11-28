@@ -4,11 +4,12 @@ import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { TwoColumnSection } from "../../components/TwoColumnSection";
 import { Footer } from "../../components/Footer";
-import { KpiSelector } from "../../components/KpiSelector";
 import { TableSectionSkeleton } from "../../components/TableSectionSkeleton";
 import { HistogramSectionSkeleton } from "../../components/HistogramSectionSkeleton";
 import { KpiTableSection } from "../../lib/components/KpiTableSection";
 import { KpiHistogramSection } from "../../lib/components/KpiHistogramSection";
+import { KpiPageContent } from "../../lib/components/KpiPageContent";
+import { kpiOptionsList } from "../../lib/config/kpiOptions";
 import pageStyles from "../page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -46,16 +47,15 @@ export default async function KpiPage() {
         <TwoColumnSection>
           {/* LEFT COLUMN */}
           <div>
-            <KpiSelector options={['Lønnsomhet', 'Aktivitet', 'Kostnader']} />
-            <h1>KPI side</h1>
+            <KpiPageContent kpiOptions={kpiOptionsList}>
+              <Suspense fallback={<TableSectionSkeleton />}>
+                <KpiTableSection orgnr={orgnr} />
+              </Suspense>
 
-            <Suspense fallback={<TableSectionSkeleton />}>
-              <KpiTableSection orgnr={orgnr} />
-            </Suspense>
-
-            <Suspense fallback={<HistogramSectionSkeleton />}>
-              <KpiHistogramSection orgnr={orgnr} />
-            </Suspense>
+              <Suspense fallback={<HistogramSectionSkeleton />}>
+                <KpiHistogramSection orgnr={orgnr} />
+              </Suspense>
+            </KpiPageContent>
           </div>
 
           {/* RIGHT COLUMN */}

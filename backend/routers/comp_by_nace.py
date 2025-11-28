@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from dotenv import load_dotenv
-from app.comp_nace import get_comp_nace
+from backend.app.comp_nace import get_comp_nace
 import os
 
 load_dotenv()

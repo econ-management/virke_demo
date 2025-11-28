@@ -2,7 +2,7 @@ print("MAIN FILE LOADED")
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import regnskap, brreg_data, comp_by_nace
+from backend.routers import regnskap, brreg_data, comp_by_nace
 
 app = FastAPI()
 

@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Header } from '../components/Header';
 import { MainSection } from '../components/MainSection';
 import { Footer } from '../components/Footer';
 import { CompanySearch } from '../components/CompanySearch';
 import { InterestSelection } from '../components/InterestSelection';
+import { clearSelectedOrgnr, setSelectedOrgnr } from '../lib/utils/cookies';
 import pageStyles from './page.module.css';
 import landingStyles from './landing.module.css';
 
@@ -14,16 +15,18 @@ export default function LandingPage() {
   const [selectedCompany, setSelectedCompany] = useState<{ orgnr: number; navn: string } | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    // Clear the selectedOrgnr cookie when landing page loads
-    document.cookie = 'selectedOrgnr=; path=/; max-age=0';
-  }, []);
+    if (pathname === '/') {
+      clearSelectedOrgnr();
+    }
+  }, [pathname]);
 
   const handleContinue = () => {
     if (selectedCompany && !isNavigating) {
       setIsNavigating(true);
-      document.cookie = `selectedOrgnr=${selectedCompany.orgnr}; path=/; max-age=3600`;
+      setSelectedOrgnr(selectedCompany.orgnr);
       router.push('/kpi');
     }
   };

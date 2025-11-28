@@ -3,6 +3,11 @@
   gap: var(--spacing-sm);
   flex-wrap: wrap;
   margin-bottom: var(--spacing-md);
+  position: relative;
+}
+
+.chipWrapper {
+  position: relative;
 }
 
 .chip {
@@ -33,5 +38,40 @@
 .chip:focus {
   outline: 2px solid var(--color-signature-rosa);
   outline-offset: 2px;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--spacing-xs));
+  left: 0;
+  min-width: 200px;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-text-black);
+  border-radius: 4px;
+  list-style: none;
+  padding: var(--spacing-xs);
+  margin: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownItem {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  font-family: 'Clan', Arial, sans-serif;
+  font-size: 0.875rem;
+  color: var(--color-text-black);
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: var(--color-base-rosa);
+}
+
+.dropdownItem.selectedItem {
+  background-color: var(--color-signature-rosa);
+  color: var(--color-white);
+  font-weight: bold;
 }
 

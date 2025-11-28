@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from dotenv import load_dotenv
-from app.regnskap_orgnr import get_regnskap_orgnr
+from backend.app.regnskap_orgnr import get_regnskap_orgnr
 import os
 
 load_dotenv()

@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
-from models.general_methods import raw_url_conv
+from backend.models.general_methods import raw_url_conv
 import os
 import psycopg2
 import pandas as pd

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from dotenv import load_dotenv
-from app.brreg_data_orgnr import get_brreg_data_orgnr
+from backend.app.brreg_data_orgnr import get_brreg_data_orgnr
 import os
 
 load_dotenv()
