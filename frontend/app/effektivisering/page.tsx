@@ -1,15 +1,23 @@
-import { Header } from '../../components/Header';
+import { HeaderWrapper } from '../../components/HeaderWrapper';
 import { Sidebar } from '../../components/Sidebar';
 import { MainSection } from '../../components/MainSection';
 import { Footer } from '../../components/Footer';
 import pageStyles from '../page.module.css';
 
-export default function EffektiviseringPage() {
+interface EffektiviseringPageProps {
+  searchParams: {
+    orgnr?: string;
+  };
+}
+
+export default function EffektiviseringPage({ searchParams }: EffektiviseringPageProps) {
+  const orgnr = searchParams.orgnr;
+
   return (
     <div className={pageStyles.page}>
-      <Header />
+      <HeaderWrapper />
       <div className={pageStyles.content}>
-        <Sidebar />
+        <Sidebar orgnr={orgnr} />
         <MainSection>
           <h1>Effektiviserings-side</h1>
         </MainSection>

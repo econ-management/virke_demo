@@ -1,10 +1,10 @@
 import { Histogram } from '../../components/Histogram';
-import { HistogramBin } from '../api/getCompByNace';
+import { HistogramBin, Dist } from '../api/getCompByNace';
 
 interface KpiHistogramProps {
   compData: {
-    driftsmargin: { hist: HistogramBin[] };
-    omsetning: { hist: HistogramBin[] };
+    driftsmargin: Dist;
+    omsetning: Dist;
   };
   regnskap: Array<{
     year: number;

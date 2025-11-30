@@ -1,6 +1,7 @@
 import styles from './Table.module.css';
+import { formatter } from '../lib/utils/formatter';
 
-type FormatType = 'numeric' | 'percentage';
+type FormatType = 'numeric' | 'percentage' | 'monetary';
 
 interface TableProps {
   columns: string[];
@@ -9,80 +10,38 @@ interface TableProps {
 }
 
 export const Table = ({ columns, values, formats }: TableProps) => {
-  const calculateAverage = (row: number[]): number => {
-    if (row.length === 0) return 0;
-    const sum = row.reduce((acc, val) => acc + val, 0);
-    return sum / row.length;
-  };
-
   const formatValue = (value: number, columnIndex: number): string => {
     const format = formats?.[columnIndex] || 'numeric';
-
-    if (format === 'percentage') {
-      return `${(value * 100).toFixed(1)}%`;
-    }
-
-    if (format === 'numeric') {
-      if (value >= 1000000000) {
-        return `${(value / 1000000000).toFixed(1)} mrd. kr`;
-      } else if (value >= 1000000) {
-        return `${(value / 1000000).toFixed(1)} mill. kr`;
-      } else if (value >= 1000) {
-        return `${(value / 1000).toFixed(1)} tusen kr`;
-      }
-      const isInteger = Number.isInteger(value);
-      return isInteger ? value.toString() : value.toFixed(2);
-    }
-
-    const isInteger = Number.isInteger(value);
-    return isInteger ? value.toString() : value.toFixed(2);
-  };
-
-  const formatAverage = (average: number, row: number[]): string => {
-    if (row.length === 0) return '0';
-    const format = formats?.[0] || 'numeric';
-    
-    if (format === 'percentage') {
-      return `${(average * 100).toFixed(1)}%`;
-    }
-    
-    if (format === 'numeric') {
-      if (average >= 1000000000) {
-        return `${(average / 1000000000).toFixed(1)} mrd. kr`;
-      } else if (average >= 1000000) {
-        return `${(average / 1000000).toFixed(1)} mill. kr`;
-      } else if (average >= 1000) {
-        return `${(average / 1000).toFixed(1)} tusen kr`;
-      }
-      return average.toFixed(2);
-    }
-    
-    return average.toFixed(2);
+    const result = formatter(value, format);
+    return result.value.toString();
   };
 
   return (
     <table className={styles.table}>
       <thead>
         <tr>
+          <th className={styles.header}></th>
           {columns.map((column, index) => (
             <th key={index} className={styles.header}>
               {column}
             </th>
           ))}
-          <th className={styles.header}>Gj.snitt</th>
         </tr>
       </thead>
       <tbody>
         {values.map((row, rowIndex) => {
-          const average = calculateAverage(row);
+          const lastValue = row.length > 0 ? row[row.length - 1] : 0;
+          const lastFormat = formats && formats.length > 0 ? formats[formats.length - 1] : 'numeric';
+          const lastResult = formatter(lastValue, lastFormat);
+          
           return (
             <tr key={rowIndex}>
+              <td className={styles.cell}>{lastResult.denomination}</td>
               {row.map((cell, cellIndex) => (
                 <td key={cellIndex} className={styles.cell}>
                   {formatValue(cell, cellIndex)}
                 </td>
               ))}
-              <td className={styles.cell}>{formatAverage(average, row)}</td>
             </tr>
           );
         })}

@@ -2,7 +2,7 @@ print("MAIN FILE LOADED")
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routers import regnskap, brreg_data, comp_by_nace
+from backend.routers import regnskap, brreg_data, comp_by_nace, kpi_preload, kpi_result
 
 app = FastAPI()
 @app.get("/")
@@ -19,3 +19,5 @@ app.add_middleware(
 app.include_router(regnskap.router)
 app.include_router(brreg_data.router)
 app.include_router(comp_by_nace.router)
+app.include_router(kpi_preload.router)
+app.include_router(kpi_result.router)

@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Header } from '../components/Header';
+import { HeaderWrapper } from '../components/HeaderWrapper';
 import { MainSection } from '../components/MainSection';
 import { Footer } from '../components/Footer';
 import { CompanySearch } from '../components/CompanySearch';
 import { InterestSelection } from '../components/InterestSelection';
+import { preloadKpiData } from '../lib/api/preloadKpiData';
 import pageStyles from './page.module.css';
 import landingStyles from './landing.module.css';
 
@@ -16,6 +17,11 @@ export default function LandingPage() {
   const router = useRouter();
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (selectedCompany) {
+      preloadKpiData(selectedCompany.orgnr.toString());
+    }
+  }, [selectedCompany]);
 
   const handleContinue = () => {
     if (selectedCompany && !isNavigating) {
@@ -28,7 +34,7 @@ export default function LandingPage() {
 
   return (
     <div className={pageStyles.page}>
-      <Header />
+      <HeaderWrapper />
       <MainSection>
         <h1>Landingsside</h1>
         <label htmlFor="company-search" className={landingStyles.label}>

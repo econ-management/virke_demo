@@ -23,11 +23,11 @@ export const KpiTable = ({ regnskap, metric }: KpiTableProps) => {
     return 0;
   };
 
-  const getFormat = (): 'percentage' | 'numeric' => {
+  const getFormat = (): 'percentage' | 'monetary' | 'numeric' => {
     if (metric === 'Driftsmargin') {
       return 'percentage';
     } else if (metric === 'Omsetning') {
-      return 'numeric';
+      return 'monetary';
     }
     return 'numeric';
   };

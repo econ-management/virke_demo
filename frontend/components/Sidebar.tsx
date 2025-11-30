@@ -5,12 +5,16 @@ import { CompanyInfo } from './CompanyInfo';
 
 interface SidebarProps {
   orgnr?: string;
+  brreg?: any[];
+  regnskap?: any[];
 }
 
-export const Sidebar = ({ orgnr }: SidebarProps) => {
+export const Sidebar = ({ orgnr, brreg, regnskap }: SidebarProps) => {
   return (
     <aside className={styles.sidebar}>
-      {orgnr ? (
+      {orgnr && brreg && regnskap ? (
+        <SidebarCompanyInfo orgnr={orgnr} brreg={brreg} regnskap={regnskap} />
+      ) : orgnr ? (
         <Suspense fallback={<CompanyInfo />}>
           <SidebarCompanyInfo orgnr={orgnr} />
         </Suspense>

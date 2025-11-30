@@ -1,8 +1,15 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Header.module.css';
 
 export const Header = () => {
+  const searchParams = useSearchParams();
+  const orgnr = searchParams?.get('orgnr') || null;
+  const queryString = orgnr ? `?orgnr=${orgnr}` : '';
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -16,13 +23,13 @@ export const Header = () => {
           />
         </Link>
         <nav className={styles.nav}>
-          <Link href="/kpi" className={styles.navLink}>
+          <Link href={`/kpi${queryString}`} className={styles.navLink}>
             KPI
           </Link>
-          <Link href="/vekst" className={styles.navLink}>
+          <Link href={`/vekst${queryString}`} className={styles.navLink}>
             Vekst
           </Link>
-          <Link href="/effektivisering" className={styles.navLink}>
+          <Link href={`/effektivisering${queryString}`} className={styles.navLink}>
             Effektivisering
           </Link>
         </nav>
