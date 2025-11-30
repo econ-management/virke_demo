@@ -1,0 +1,2 @@
+export { DensityPlot } from './DensityPlot';
+

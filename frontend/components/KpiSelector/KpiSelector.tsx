@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { KpiOption } from '../lib/config/kpiOptions';
+import { KpiOption } from '../../lib/config/kpiOptions';
 import styles from './KpiSelector.module.css';
 
 interface KpiSelectorProps {

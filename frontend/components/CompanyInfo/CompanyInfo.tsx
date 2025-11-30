@@ -1,4 +1,6 @@
 import styles from './CompanyInfo.module.css';
+import { formatter } from '../../lib/utils/formatter';
+import { metricFormatter } from '../../lib/config/metricFormatter';
 
 interface CompanyInfoProps {
   orgnr?: string;
@@ -49,7 +51,7 @@ export const CompanyInfo = ({
         <span className={styles.label}>Omsetning i {omsetningAar || '(value)'}:</span>
         <span className={styles.value}>
           {omsetning !== undefined 
-            ? `${(omsetning / 1000000).toFixed(1)} mrd. kr`
+            ? formatter(omsetning, metricFormatter['Omsetning'] || 'numeric').string
             : 'value'
           }
         </span>
@@ -58,7 +60,7 @@ export const CompanyInfo = ({
         <span className={styles.label}>Driftsmargin i {driftsmarginAar || '(value)'}:</span>
         <span className={styles.value}>
           {driftsmargin !== undefined 
-            ? `${(driftsmargin * 100).toFixed(1)}%`
+            ? formatter(driftsmargin, metricFormatter['Driftsmargin'] || 'numeric').string
             : 'value'
           }
         </span>

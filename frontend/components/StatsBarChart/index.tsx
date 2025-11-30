@@ -1,0 +1,2 @@
+export { StatsBarChart } from './StatsBarChart';
+

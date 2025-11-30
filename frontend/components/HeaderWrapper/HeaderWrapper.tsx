@@ -3,8 +3,8 @@
 import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Header } from './Header';
-import styles from './Header.module.css';
+import { Header } from '../Header';
+import styles from '../Header/Header.module.css';
 
 export const HeaderWrapper = () => {
   return (

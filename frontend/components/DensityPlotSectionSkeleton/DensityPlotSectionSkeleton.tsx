@@ -1,6 +1,6 @@
-import styles from './HistogramSectionSkeleton.module.css';
+import styles from './DensityPlotSectionSkeleton.module.css';
 
-export const HistogramSectionSkeleton = () => {
+export const DensityPlotSectionSkeleton = () => {
   return (
     <div className={styles.container}>
       <div className={styles.titleSkeleton}></div>

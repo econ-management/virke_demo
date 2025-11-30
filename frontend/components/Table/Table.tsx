@@ -1,5 +1,5 @@
 import styles from './Table.module.css';
-import { formatter } from '../lib/utils/formatter';
+import { formatter } from '../../lib/utils/formatter';
 
 type FormatType = 'numeric' | 'percentage' | 'monetary';
 

@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import styles from './Sidebar.module.css';
-import { SidebarCompanyInfo } from '../lib/components/SidebarCompanyInfo';
-import { CompanyInfo } from './CompanyInfo';
+import { SidebarCompanyInfo } from '../../lib/components/SidebarCompanyInfo';
+import { CompanyInfo } from '../CompanyInfo';
 
 interface SidebarProps {
   orgnr?: string;
