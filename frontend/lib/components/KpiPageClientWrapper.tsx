@@ -57,7 +57,7 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
 
   useEffect(() => {
     if (naceDevData) {
-      setDataNaceDevVar(naceDevData);
+      setDataNaceDevVar(naceDevData as { [key: string]: { [year: number]: { min: number; max: number; median: number; mean: number; }; }; });
     }
   }, [naceDevData]);
 
@@ -156,7 +156,7 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
       <div>
         {selectedMetric && (
           <>
-            <KpiLineChart regnskap={regnskap} metric={selectedMetric} naceDevData={data_nace_dev_var} />
+            <KpiLineChart regnskap={regnskap} metric={selectedMetric} naceDevData={data_nace_dev_var as { [key: string]: { [year: number]: { min: number; max: number; median: number; mean: number; }; }; } | null} />
             <CompetitorComparison regnskap={regnskap} metric={selectedMetric} />
           </>
         )}
