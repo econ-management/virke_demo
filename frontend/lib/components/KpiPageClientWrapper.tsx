@@ -20,7 +20,14 @@ interface KpiPageClientWrapperProps {
     [key: string]: Dist;
   } | null;
   naceDevData: {
-    [key: string]: Dist;
+    [key: string]: {
+      [year: number]: {
+        min: number;
+        max: number;
+        median: number;
+        mean: number;
+      };
+    };
   } | null;
   nace: string | null;
 }
@@ -28,7 +35,16 @@ interface KpiPageClientWrapperProps {
 export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevData, nace }: KpiPageClientWrapperProps) => {
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
   const [data_comp_by_nace_var, setDataCompByNaceVar] = useState<{ [key: string]: Dist }>(compData || {});
-  const [data_nace_dev_var, setDataNaceDevVar] = useState<{ [key: string]: Dist }>(naceDevData || {});
+  const [data_nace_dev_var, setDataNaceDevVar] = useState<{ 
+    [key: string]: { 
+      [year: number]: { 
+        min: number; 
+        max: number; 
+        median: number; 
+        mean: number; 
+      }; 
+    }; 
+  }>(naceDevData as any || {});
   const preloadStartedRef = useRef(false);
   const uncheckedListRef = useRef<string[]>([]);
   const processingRef = useRef(false);
@@ -55,7 +71,7 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
     
     const waitForDriftsmarginAndProcess = async () => {
       const checkDriftsmargin = () => {
-        return data_comp_by_nace_var["Driftsmargin"] && data_nace_dev_var["Driftsmargin"];
+        return data_comp_by_nace_var["Driftsmargin"] && data_nace_dev_var["Driftsmargin"] && Object.keys(data_nace_dev_var["Driftsmargin"]).length > 0;
       };
 
       if (!checkDriftsmargin()) {
@@ -75,7 +91,7 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
 
           const naceDevDataResult = await getNaceDevVar(nace, metric);
           const naceDevData = (naceDevDataResult as any)[metric] ? (naceDevDataResult as any)[metric] : naceDevDataResult;
-          setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as Dist }));
+          setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as { [year: number]: { min: number; max: number; median: number; mean: number; } } }));
 
           uncheckedListRef.current = uncheckedListRef.current.slice(1);
           
@@ -119,7 +135,7 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
       if (!data_nace_dev_var[metric]) {
         const naceDevDataResult = await getNaceDevVar(nace, metric);
         const naceDevData = (naceDevDataResult as any)[metric] ? (naceDevDataResult as any)[metric] : naceDevDataResult;
-        setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as Dist }));
+        setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as { [year: number]: { min: number; max: number; median: number; mean: number; } } }));
       }
     } catch (error) {
       console.error('Error fetching metric data:', error);
@@ -133,7 +149,7 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
           kpiOptions={kpiOptions} 
           regnskap={regnskap}
           compData={data_comp_by_nace_var}
-          naceDevData={data_nace_dev_var}
+          naceDevData={data_nace_dev_var as any}
           onMetricChange={handleMetricChange}
         />
       </div>
