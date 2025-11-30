@@ -1,11 +1,8 @@
-export async function getRegnskapOrgnr(orgnr: string): Promise<{
+export async function getRegnskapOrgnr(orgnr: string): Promise<Array<{
   orgnr: number;
   year: number;
-  driftsmargin: number;
-  omsetning: number;
-  varekostnad: number;
-  lonnskostnader: number;
-}[]> {
+  [key: string]: number | string;
+}>> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
   console.log(`getRegnskapOrgnr: Fetching from ${apiUrl}/api/regnskap/${orgnr}`);
   

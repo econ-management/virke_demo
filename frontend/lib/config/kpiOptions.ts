@@ -6,17 +6,16 @@ export interface KpiOption {
 export const kpiOptions: Record<string, KpiOption> = {
   Lønnsomhet: {
     label: 'Lønnsomhet',
-    metrics: ['Driftsmargin'],
+    metrics: ['Driftsmargin']
   },
   Aktivitet: {
     label: 'Aktivitet',
-    metrics: ['Omsetning'],
+    metrics: ['Omsetning']
   },
   Kostnader: {
     label: 'Kostnader',
-    metrics: [],
+    metrics: ['Lønnskostnader', 'Varekostnader']
   },
 };
 
 export const kpiOptionsList = Object.values(kpiOptions);
-

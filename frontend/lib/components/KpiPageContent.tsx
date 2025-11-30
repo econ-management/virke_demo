@@ -2,30 +2,39 @@
 
 import { useState, useEffect } from 'react';
 import { KpiOption } from '../config/kpiOptions';
+import { getVariableName } from '../config/kpiOptionMapper';
 import { KpiSelector } from '../../components/KpiSelector';
-import { KpiTable } from './KpiTable';
-import { KpiHistogram } from './KpiHistogram';
+import { KpiDensityPlot } from './KpiDensityPlot';
 import { StatsBarChart } from '../../components/StatsBarChart';
-import { HistogramBin, Dist } from '../api/getCompByNace';
+import { Dist } from '../api/getCompByNaceVar';
+import { metricFormatter } from '../config/metricFormatter';
 
 interface KpiPageContentProps {
   kpiOptions: KpiOption[];
   regnskap: Array<{
     year: number;
-    driftsmargin: number;
-    omsetning: number;
+    [key: string]: number | string;
   }>;
   compData: {
-    driftsmargin: Dist;
-    omsetning: Dist;
+    [key: string]: Dist;
   } | null;
+  naceDevData?: {
+    [key: string]: Dist;
+  } | null;
+  onMetricChange?: (metric: string) => void;
 }
 
-export const KpiPageContent = ({ kpiOptions, regnskap, compData }: KpiPageContentProps) => {
+export const KpiPageContent = ({ kpiOptions, regnskap, compData, naceDevData, onMetricChange }: KpiPageContentProps) => {
   const [selectedChip, setSelectedChip] = useState<string>(kpiOptions[0]?.label || '');
   const [selectedMetric, setSelectedMetric] = useState<string>(
     kpiOptions[0]?.metrics[0] || ''
   );
+
+  useEffect(() => {
+    if (onMetricChange && selectedMetric) {
+      onMetricChange(selectedMetric);
+    }
+  }, [selectedMetric, onMetricChange]);
 
   const handleSelect = (selected: string, metric?: string) => {
     setSelectedChip(selected);
@@ -40,40 +49,27 @@ export const KpiPageContent = ({ kpiOptions, regnskap, compData }: KpiPageConten
   const getStatsBarChart = () => {
     if (!selectedMetric || !compData) return null;
     
+    const distData = (compData as any)[selectedMetric];
+    if (!distData?.stats) return null;
+    
+    const variableName = getVariableName(selectedMetric);
+    if (!variableName) return null;
+    
     const latestRegnskap = regnskap?.find((item: any) => item.year === 2024);
+    const markerValue = latestRegnskap ? (latestRegnskap as any)[variableName] : undefined;
     
-    if (selectedMetric === 'Driftsmargin' && compData.driftsmargin?.stats) {
-      const markerValue = latestRegnskap?.driftsmargin;
-      
-      if (markerValue !== undefined && markerValue !== null) {
-        return (
-          <StatsBarChart
-            min={compData.driftsmargin.stats.min}
-            median={compData.driftsmargin.stats.median}
-            mean={compData.driftsmargin.stats.mean}
-            max={compData.driftsmargin.stats.max}
-            markerValue={markerValue}
-            format="percentage"
-          />
-        );
-      }
-    }
-    
-    if (selectedMetric === 'Omsetning' && compData.omsetning?.stats) {
-      const markerValue = latestRegnskap?.omsetning;
-      
-      if (markerValue !== undefined && markerValue !== null) {
-        return (
-          <StatsBarChart
-            min={compData.omsetning.stats.min}
-            median={compData.omsetning.stats.median}
-            mean={compData.omsetning.stats.mean}
-            max={compData.omsetning.stats.max}
-            markerValue={markerValue}
-            format="numeric"
-          />
-        );
-      }
+    if (markerValue !== undefined && markerValue !== null) {
+      return (
+        <StatsBarChart
+          min={distData.stats.min}
+          median={distData.stats.median}
+          mean={distData.stats.mean}
+          max={distData.stats.max}
+          markerValue={markerValue}
+          format={metricFormatter[selectedMetric] || 'numeric'}
+          metric={selectedMetric}
+        />
+      );
     }
     
     return null;
@@ -83,10 +79,9 @@ export const KpiPageContent = ({ kpiOptions, regnskap, compData }: KpiPageConten
     <>
       <KpiSelector options={kpiOptions} onSelect={handleSelect} />
       {displayTitle && <h1>{displayTitle}</h1>}
-      {selectedMetric && <KpiTable regnskap={regnskap} metric={selectedMetric} />}
       {getStatsBarChart()}
       {selectedMetric && compData && (
-        <KpiHistogram compData={compData} regnskap={regnskap} metric={selectedMetric} />
+        <KpiDensityPlot compData={compData} regnskap={regnskap} metric={selectedMetric} />
       )}
     </>
   );

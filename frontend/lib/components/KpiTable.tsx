@@ -1,10 +1,11 @@
 import { Table } from '../../components/Table';
+import { getVariableName } from '../config/kpiOptionMapper';
+import { metricFormatter } from '../config/metricFormatter';
 
 interface KpiTableProps {
   regnskap: Array<{
     year: number;
-    driftsmargin: number;
-    omsetning: number;
+    [key: string]: number | string;
   }>;
   metric: string;
 }
@@ -14,25 +15,13 @@ export const KpiTable = ({ regnskap, metric }: KpiTableProps) => {
     return <p>Ingen regnskapsdata tilgjengelig.</p>;
   }
 
+  const variableName = getVariableName(metric);
+  const format = metricFormatter[metric] || 'numeric';
+
   const getMetricValue = (item: any): number => {
-    if (metric === 'Driftsmargin') {
-      return item.driftsmargin;
-    } else if (metric === 'Omsetning') {
-      return item.omsetning;
-    }
-    return 0;
+    if (!variableName) return 0;
+    return item[variableName] || 0;
   };
-
-  const getFormat = (): 'percentage' | 'monetary' | 'numeric' => {
-    if (metric === 'Driftsmargin') {
-      return 'percentage';
-    } else if (metric === 'Omsetning') {
-      return 'monetary';
-    }
-    return 'numeric';
-  };
-
-  const format = getFormat();
 
   return (
     <Table

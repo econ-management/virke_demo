@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import styles from './StatsBarChart.module.css';
 import { formatter, FormatterType } from '../../lib/utils/formatter';
-import { getVariableName } from '../../lib/config/kpiOptions';
+import { getVariableName } from '../../lib/config/kpiOptionMapper';
 import { statBarTexts } from '../../lib/config/statBarTexts';
 
 interface StatsBarChartProps {
@@ -87,6 +87,8 @@ export const StatsBarChart = ({ min, median, mean, max, markerValue, format, met
     return formatted.string;
   };
 
+  const yAxisMax = Math.max(max, markerValue);
+
   const getStatBarText = (): string => {
     const template = statBarTexts[metric];
     if (!template) return '';
@@ -113,7 +115,7 @@ export const StatsBarChart = ({ min, median, mean, max, markerValue, format, met
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
-          margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+          margin={{ top: 20, right: 100, left: 20, bottom: 20 }}
           barCategoryGap="20%"
           barSize={60}
         >
@@ -128,6 +130,7 @@ export const StatsBarChart = ({ min, median, mean, max, markerValue, format, met
             stroke={colors.black}
             tick={{ fill: colors.black, fontSize: 14 }}
             axisLine={{ stroke: colors.black, strokeWidth: 1 }}
+            domain={[0, yAxisMax]}
           />
           <Tooltip
             formatter={(value: number) => formatTooltip(value)}
@@ -160,7 +163,7 @@ export const StatsBarChart = ({ min, median, mean, max, markerValue, format, met
             strokeWidth={2}
             label={{
               value: 'Ditt selskap',
-              position: 'left',
+              position: 'right',
               fill: colors.orange,
               fontSize: 12,
               fontWeight: 'bold',

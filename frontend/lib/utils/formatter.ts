@@ -1,4 +1,4 @@
-type FormatterType = 'percentage' | 'monetary' | 'numeric';
+export type FormatterType = 'percentage' | 'monetary' | 'numeric';
 
 interface FormatterResult {
   value: number;

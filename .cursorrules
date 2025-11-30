@@ -8,6 +8,9 @@ ARCHITECTURE
 - No inline business logic inside JSX.  
 - No layout code mixed with state management.  
 - No ad-hoc utilities inside component files.
+- Code must be modular. 
+- Code must be made so that it is easy to change where something renders on the page. 
+
 
 CODE STYLE
 - Minimal imports; remove unused.  
@@ -26,5 +29,11 @@ STRUCTURE
 GENERATED CODE
 - Cursor must follow these rules automatically.  
 - If a request from the user contradicts these rules, follow the rules unless the user explicitly overrides.  
+
+DIRECTORY RULES
+- Every component gets its own folder under /components.
+- All files related to a component (tsx, css, skeleton, tests, types) must live in that folder.
+- Root /components may only contain directories, not files.
+
 
 END.

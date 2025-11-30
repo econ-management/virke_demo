@@ -1,5 +1,7 @@
 import { getRegnskapOrgnr } from '../api/getRegnskapOrgnr';
 import { Table } from '../../components/Table';
+import { getVariableName } from '../config/kpiOptionMapper';
+import { metricFormatter } from '../config/metricFormatter';
 
 interface KpiTableSectionProps {
   orgnr: string;
@@ -13,25 +15,13 @@ export async function KpiTableSection({ orgnr, metric }: KpiTableSectionProps) {
     return <p>Ingen regnskapsdata tilgjengelig.</p>;
   }
 
+  const variableName = getVariableName(metric);
+  const format = metricFormatter[metric] || 'numeric';
+
   const getMetricValue = (item: any): number => {
-    if (metric === 'Driftsmargin') {
-      return item.driftsmargin;
-    } else if (metric === 'Omsetning') {
-      return item.omsetning;
-    }
-    return 0;
+    if (!variableName) return 0;
+    return item[variableName] || 0;
   };
-
-  const getFormat = (): 'percentage' | 'numeric' => {
-    if (metric === 'Driftsmargin') {
-      return 'percentage';
-    } else if (metric === 'Omsetning') {
-      return 'numeric';
-    }
-    return 'numeric';
-  };
-
-  const format = getFormat();
 
   return (
     <Table

@@ -6,9 +6,10 @@ import styles from './CompanySearch.module.css';
 
 interface CompanySearchProps {
   onCompanySelect?: (company: { orgnr: number; navn: string } | null) => void;
+  showSelectedBox?: boolean;
 }
 
-export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
+export const CompanySearch = ({ onCompanySelect, showSelectedBox = true }: CompanySearchProps) => {
   const [value, setValue] = useState('');
   const [allResults, setAllResults] = useState<{ orgnr: number; navn: string }[]>([]);
   const [selectedCompany, setSelectedCompany] = useState<{ orgnr: number; navn: string } | null>(null);
@@ -135,7 +136,12 @@ export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
     lastFirstTwoLetters.current = '';
   };
 
-  const handleBlur = () => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Don't close if clicking on the dropdown list
+    if (containerRef.current?.contains(e.relatedTarget as Node)) {
+      return;
+    }
+    
     if (value.trim()) {
       const matchingCompany = allResults.find(
         (company) => company.navn.toLowerCase() === value.toLowerCase().trim()
@@ -180,7 +186,10 @@ export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
               className={`${styles.resultItem} ${
                 index === selectedIndex ? styles.selected : ''
               }`}
-              onClick={() => handleSelect(company)}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleSelect(company);
+              }}
               onMouseEnter={() => setSelectedIndex(index)}
             >
               {company.navn}
@@ -188,7 +197,7 @@ export const CompanySearch = ({ onCompanySelect }: CompanySearchProps) => {
           ))}
         </ul>
       )}
-      {selectedCompany && (
+      {selectedCompany && showSelectedBox && (
         <div className={styles.selectedMessage}>
           <div className={styles.selectedTitle}>Valgt foretak</div>
           <div className={styles.selectedDetail}>
