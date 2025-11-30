@@ -78,9 +78,17 @@ export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevDa
           setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as Dist }));
 
           uncheckedListRef.current = uncheckedListRef.current.slice(1);
+          
+          if (uncheckedListRef.current.length > 0) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+          }
         } catch (error) {
           console.error(`Error fetching metric data for ${metric}:`, error);
           uncheckedListRef.current = uncheckedListRef.current.slice(1);
+          
+          if (uncheckedListRef.current.length > 0) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+          }
         }
       }
 

@@ -26,12 +26,12 @@ export const Header = () => {
           <Link href={`/kpi${queryString}`} className={styles.navLink}>
             KPI
           </Link>
-          <Link href={`/vekst${queryString}`} className={styles.navLink}>
+          <span className={styles.navLink} style={{ cursor: 'default', opacity: 0.5 }}>
             Vekst
-          </Link>
-          <Link href={`/effektivisering${queryString}`} className={styles.navLink}>
+          </span>
+          <span className={styles.navLink} style={{ cursor: 'default', opacity: 0.5 }}>
             Effektivisering
-          </Link>
+          </span>
         </nav>
       </div>
     </header>
