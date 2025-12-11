@@ -26,9 +26,9 @@ export const Header = () => {
           <Link href={`/kpi${queryString}`} className={styles.navLink}>
             KPI
           </Link>
-          <span className={styles.navLink} style={{ cursor: 'default', opacity: 0.5 }}>
+          <Link href={`/vekst${queryString}`} className={styles.navLink}>
             Vekst
-          </span>
+          </Link>
           <span className={styles.navLink} style={{ cursor: 'default', opacity: 0.5 }}>
             Effektivisering
           </span>

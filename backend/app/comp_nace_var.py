@@ -1,9 +1,10 @@
 from dotenv import load_dotenv
 load_dotenv()
 from backend.models.general_methods import raw_url_conv
+import backend.db.pool as dbpool
+from backend.db.pool import init_pool
 import os
-import psycopg2
-from psycopg2 import sql
+import asyncpg
 import pandas as pd
 import numpy as np
 from scipy.stats import gaussian_kde, mstats
@@ -11,29 +12,30 @@ from scipy.stats import gaussian_kde, mstats
 
 econm_url = raw_url_conv(os.getenv("ECONM_DB_URL"))
 
-def db_get_comp_nace_var(nace, variable_names, bed_oms):
-    conn = psycopg2.connect(econm_url)
-    cur = conn.cursor()
+async def db_get_comp_nace_var(nace, variable_names, bed_oms):
+    column_list = ", ".join(f'"{v}"' for v in variable_names)
 
-    query = sql.SQL("""
-        SELECT orgnr, {vars}
+    query = f"""
+        SELECT orgnr, {column_list}
         FROM core_facts.proff_regnskap
         WHERE year = 2024
         AND (driftsinntekter_sum > 5000000
-             OR driftsinntekter_sum > %s)
+             OR driftsinntekter_sum >$1)
         AND orgnr IN (
             SELECT orgnr FROM core_attr.brreg_enheter
-            WHERE naring1_kode = %s
+            WHERE naring1_kode = $2
             AND har_ansatte = TRUE
         )
-    """).format(
-        vars=sql.SQL(", ").join(sql.Identifier(v) for v in variable_names)
-    )
-    cur.execute(query, (0.5 * bed_oms, nace))
-    rows = cur.fetchall()
-    columns = ["orgnr"] + variable_names
-    df = pd.DataFrame(rows, columns=columns)
-    conn.close()
+    """
+
+    async with dbpool.pool.acquire() as conn:
+        rows = await conn.fetch(query, 0.5 * bed_oms, nace)
+
+    if not rows:
+        return pd.DataFrame(columns=["orgnr"] + variable_names)
+
+    # asyncpg returns dict-like Row objects → convert to DataFrame
+    df = pd.DataFrame(rows, columns=["orgnr"] + variable_names)
     return df
 
 
@@ -146,8 +148,8 @@ def make_stats(series, p=0.05, window=0.1):
 
 
 
-def get_comp_nace_var(nace, variable_names, calculations, min_value = None, bed_oms=5000000):
-    df = db_get_comp_nace_var(nace, variable_names, bed_oms)
+async def get_comp_nace_var(nace, variable_names, calculations, min_value = None, bed_oms=5000000):
+    df = await db_get_comp_nace_var(nace, variable_names, bed_oms)
     for calc in calculations:
         if calc[1] == 'clean':
             df['return'] = df[variable_names[calc[0]]].copy()

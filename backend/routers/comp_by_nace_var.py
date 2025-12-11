@@ -16,4 +16,4 @@ class CompByNaceVarRequest(BaseModel):
 
 @router.post("/{nace}")
 async def get_comp_by_nace_var(nace: str, request: CompByNaceVarRequest):
-    return get_comp_nace_var(nace, request.variable_names, request.calculations, request.min_value)
+    return await get_comp_nace_var(nace, request.variable_names, request.calculations, request.min_value)

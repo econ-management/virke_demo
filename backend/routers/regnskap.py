@@ -8,5 +8,5 @@ load_dotenv()
 router = APIRouter(prefix="/api/regnskap", tags=["regnskap"])
 
 @router.get("/{orgnr}")
-async def get_regskap_by_orgnr(orgnr: str):
-    return get_regnskap_orgnr(orgnr)
+async def get_regnskap_by_orgnr(orgnr: str):
+    return await get_regnskap_orgnr(orgnr)

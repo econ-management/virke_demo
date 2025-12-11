@@ -1,167 +1,139 @@
+
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { KpiPageContent } from './KpiPageContent';
-import { KpiLineChart } from './KpiLineChart';
-import { CompetitorComparison } from './CompetitorComparison';
-import { KpiOption } from '../config/kpiOptions';
-import { Dist } from '../api/getCompByNaceVar';
-import { getCompByNaceVar } from '../api/getCompByNaceVar';
-import { getNaceDevVar } from '../api/getNaceDevVar';
-import { kpiOptionMapper } from '../config/kpiOptionMapper';
+import { useEffect, useState, useRef } from "react";
+import { getKpiResult2 } from "../api/getKpiResult2";
 
-interface KpiPageClientWrapperProps {
-  kpiOptions: KpiOption[];
-  regnskap: Array<{
-    year: number;
-    [key: string]: number | string;
-  }>;
-  compData: {
-    [key: string]: Dist;
-  } | null;
-  naceDevData: {
-    [key: string]: {
-      [year: number]: {
-        min: number;
-        max: number;
-        median: number;
-        mean: number;
-      };
-    };
-  } | null;
+import { KpiPageContent } from "./KpiPageContent";
+import { KpiLineChart } from "./KpiLineChart";
+import { CompetitorComparison } from "./CompetitorComparison";
+
+import { KpiOption } from "../config/kpiOptions";
+import { Dist } from "../api/getCompByNaceVar";
+
+interface Props {
+  orgnr: string;
+  regnskap: any[];
   nace: string | null;
+  kpiOptions: KpiOption[];
+  initialCompData: Record<string, any>;
+  initialNaceDevData: Record<string, any>;
 }
 
-export const KpiPageClientWrapper = ({ kpiOptions, regnskap, compData, naceDevData, nace }: KpiPageClientWrapperProps) => {
+export function KpiPageClientWrapper({
+  orgnr,
+  regnskap,
+  nace,
+  kpiOptions,
+  initialCompData,
+  initialNaceDevData,
+}: Props) {
+
+
+  console.log("CLIENT regnskap:", regnskap);
+  // -----------------------------
+  // STATE
+  // -----------------------------
+  const [compData, setCompData] = useState({ ...initialCompData });
+  const [naceDevData, setNaceDevData] = useState({ ...initialNaceDevData });
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
-  const [data_comp_by_nace_var, setDataCompByNaceVar] = useState<{ [key: string]: Dist }>(compData || {});
-  const [data_nace_dev_var, setDataNaceDevVar] = useState<{ 
-    [key: string]: { 
-      [year: number]: { 
-        min: number; 
-        max: number; 
-        median: number; 
-        mean: number; 
-      }; 
-    }; 
-  }>(naceDevData as any || {});
-  const preloadStartedRef = useRef(false);
-  const uncheckedListRef = useRef<string[]>([]);
-  const processingRef = useRef(false);
+  const [loadingLabel, setLoadingLabel] = useState<string | null>(null);
 
+
+  // avoid repeated sequential loading
+  const loadingRef = useRef(false);
+
+  // -----------------------------
+  // SEQUENTIAL KPI LOADING
+  // -----------------------------
   useEffect(() => {
-    if (compData) {
-      setDataCompByNaceVar(compData);
-    }
-  }, [compData]);
-
-  useEffect(() => {
-    if (naceDevData) {
-      setDataNaceDevVar(naceDevData as { [key: string]: { [year: number]: { min: number; max: number; median: number; mean: number; }; }; });
-    }
-  }, [naceDevData]);
-
-  useEffect(() => {
-    const allMetrics = Object.keys(kpiOptionMapper);
-    uncheckedListRef.current = allMetrics.filter(metric => metric !== "Driftsmargin");
-  }, []);
-
-  useEffect(() => {
-    if (!nace || preloadStartedRef.current || processingRef.current) return;
-    
-    const waitForDriftsmarginAndProcess = async () => {
-      const checkDriftsmargin = () => {
-        return data_comp_by_nace_var["Driftsmargin"] && data_nace_dev_var["Driftsmargin"] && Object.keys(data_nace_dev_var["Driftsmargin"]).length > 0;
-      };
-
-      if (!checkDriftsmargin()) {
-        return;
-      }
-
-      preloadStartedRef.current = true;
-      processingRef.current = true;
-
-      while (uncheckedListRef.current.length > 0) {
-        const metric = uncheckedListRef.current[0];
-
+    if (!nace) return;
+  
+    let cancelled = false;
+  
+    // Flatten the KPI metrics (NOT the option labels)
+    const allMetrics: string[] = kpiOptions.flatMap(opt => opt.metrics);
+  
+    async function loadSequentially() {
+      for (const metric of allMetrics) {
+  
+        // Skip metrics already loaded (including Driftsmargin)
+        if (compData[metric]) continue;
+  
+        if (cancelled) return;
+  
+        setLoadingLabel(metric);
+  
         try {
-          const compDataResult = await getCompByNaceVar(nace, metric);
-          const compData = (compDataResult as any)[metric] ? (compDataResult as any)[metric] : compDataResult;
-          setDataCompByNaceVar(prev => ({ ...prev, [metric]: compData as Dist }));
-
-          const naceDevDataResult = await getNaceDevVar(nace, metric);
-          const naceDevData = (naceDevDataResult as any)[metric] ? (naceDevDataResult as any)[metric] : naceDevDataResult;
-          setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as { [year: number]: { min: number; max: number; median: number; mean: number; } } }));
-
-          uncheckedListRef.current = uncheckedListRef.current.slice(1);
-          
-          if (uncheckedListRef.current.length > 0) {
-            await new Promise(resolve => setTimeout(resolve, 3000));
-          }
-        } catch (error) {
-          console.error(`Error fetching metric data for ${metric}:`, error);
-          uncheckedListRef.current = uncheckedListRef.current.slice(1);
-          
-          if (uncheckedListRef.current.length > 0) {
-            await new Promise(resolve => setTimeout(resolve, 3000));
-          }
+          const result = await getKpiResult2(orgnr, metric);
+  
+          if (cancelled) return;
+  
+          setCompData(prev => ({
+            ...prev,
+            [metric]: result.comp_by_nace_var[metric],
+          }));
+  
+          setNaceDevData(prev => ({
+            ...prev,
+            [metric]: result.nace_dev_var[metric],
+          }));
+  
+        } catch (err) {
+          console.error(`Failed fetching KPI ${metric}`, err);
         }
       }
+  
+      setLoadingLabel(null);
+    }
+  
+    loadSequentially();
+  
+    return () => { cancelled = true; };
+  }, [orgnr, nace]);
+  
 
-      processingRef.current = false;
-    };
 
-    waitForDriftsmarginAndProcess();
-  }, [nace, data_comp_by_nace_var, data_nace_dev_var]);
-
-  const handleMetricChange = async (metric: string) => {
+  // -----------------------------
+  // METRIC CHANGE HANDLER (for charts)
+  // -----------------------------
+  const handleMetricChange = (metric: string) => {
     setSelectedMetric(metric);
-
-    if (!nace) return;
-
-    // Check if data already exists
-    if (data_comp_by_nace_var[metric] && data_nace_dev_var[metric]) {
-      return;
-    }
-
-    // Fetch missing data
-    try {
-      if (!data_comp_by_nace_var[metric]) {
-        const compDataResult = await getCompByNaceVar(nace, metric);
-        const compData = (compDataResult as any)[metric] ? (compDataResult as any)[metric] : compDataResult;
-        setDataCompByNaceVar(prev => ({ ...prev, [metric]: compData as Dist }));
-      }
-
-      if (!data_nace_dev_var[metric]) {
-        const naceDevDataResult = await getNaceDevVar(nace, metric);
-        const naceDevData = (naceDevDataResult as any)[metric] ? (naceDevDataResult as any)[metric] : naceDevDataResult;
-        setDataNaceDevVar(prev => ({ ...prev, [metric]: naceDevData as { [year: number]: { min: number; max: number; median: number; mean: number; } } }));
-      }
-    } catch (error) {
-      console.error('Error fetching metric data:', error);
-    }
   };
 
+  // -----------------------------
+  // FULL RESTORED LAYOUT
+  // -----------------------------
   return (
     <>
+      {/* KPI selector + density plot + stats */}
       <div>
-        <KpiPageContent 
-          kpiOptions={kpiOptions} 
+        <KpiPageContent
+          kpiOptions={kpiOptions}
           regnskap={regnskap}
-          compData={data_comp_by_nace_var}
-          naceDevData={data_nace_dev_var as any}
+          compData={compData}
+          naceDevData={naceDevData}
           onMetricChange={handleMetricChange}
         />
       </div>
+
+      {/* Line chart + competitor chart */}
       <div>
         {selectedMetric && (
           <>
-            <KpiLineChart regnskap={regnskap} metric={selectedMetric} naceDevData={data_nace_dev_var as { [key: string]: { [year: number]: { min: number; max: number; median: number; mean: number; }; }; } | null} />
-            <CompetitorComparison regnskap={regnskap} metric={selectedMetric} />
+            <KpiLineChart
+              regnskap={regnskap}
+              metric={selectedMetric}
+              naceDevData={naceDevData}
+            />
+
+            <CompetitorComparison
+              regnskap={regnskap}
+              metric={selectedMetric}
+            />
           </>
         )}
       </div>
     </>
   );
-};
-
+}
