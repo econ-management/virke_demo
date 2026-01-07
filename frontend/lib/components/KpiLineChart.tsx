@@ -20,7 +20,7 @@ interface KpiLineChartProps {
     year: number;
     [key: string]: number | string;
   }>;
-  metric: string;
+  metric: string | null;
   naceDevData?: {
     [key: string]: {
       [year: number]: {
@@ -34,6 +34,9 @@ interface KpiLineChartProps {
 }
 
 export const KpiLineChart = ({ regnskap, metric, naceDevData }: KpiLineChartProps) => {
+  if (!metric) {
+    return null;
+  }
   const [colors, setColors] = useState({
     rosa: '#c9007f',
     orange: '#f57f00',
@@ -80,7 +83,7 @@ export const KpiLineChart = ({ regnskap, metric, naceDevData }: KpiLineChartProp
     }
 
     return yearData;
-  });
+  }).reverse();
 
   const formatYAxis = (value: number): string => {
     if (format === 'percentage') {
@@ -96,8 +99,7 @@ export const KpiLineChart = ({ regnskap, metric, naceDevData }: KpiLineChartProp
   };
 
   return (
-    <div style={{ width: '100%' }}>
-      <h2 style={{ marginLeft: '20px', marginBottom: '20px' }}>Din utvikling i {metric} sammenlignet med bransjestandarden</h2>
+    <>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
         data={data}
@@ -227,7 +229,7 @@ export const KpiLineChart = ({ regnskap, metric, naceDevData }: KpiLineChartProp
         )}
       </LineChart>
     </ResponsiveContainer>
-    </div>
+    </>
   );
 };
 

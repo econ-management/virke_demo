@@ -1,0 +1,1 @@
+export { StatBarText } from './StatBarText';

@@ -2,14 +2,14 @@
 'use client';
 
 import { useEffect, useState, useRef } from "react";
-import { getKpiResult2 } from "../api/getKpiResult2";
+import { getKpiResult2 } from "../../logic/api/getKpiResult2";
 
 import { KpiPageContent } from "./KpiPageContent";
 import { KpiLineChart } from "./KpiLineChart";
 import { CompetitorComparison } from "./CompetitorComparison";
 
 import { KpiOption } from "../config/kpiOptions";
-import { Dist } from "../api/getCompByNaceVar";
+import { Dist } from "../../logic/api/getCompByNaceVar";
 
 interface Props {
   orgnr: string;

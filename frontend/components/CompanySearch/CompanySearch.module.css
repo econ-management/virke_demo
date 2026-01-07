@@ -5,20 +5,10 @@
 
 .searchInput {
   width: 100%;
-  padding: var(--spacing-sm);
-  border: 1px solid var(--color-text-black);
-  font-family: 'Clan', Arial, sans-serif;
-  font-size: 1rem;
-}
-
-.searchInput:focus {
-  outline: 2px solid var(--color-signature-rosa);
-  outline-offset: 2px;
 }
 
 .loading {
   padding: var(--spacing-sm);
-  color: var(--color-text-black);
   font-size: 0.9rem;
 }
 
@@ -61,14 +51,11 @@
 }
 
 .selectedTitle {
-  font-weight: bold;
   margin-bottom: var(--spacing-sm);
-  color: var(--color-text-black);
 }
 
 .selectedDetail {
   margin-bottom: var(--spacing-xs);
-  color: var(--color-text-black);
 }
 
 .selectedDetail:last-child {

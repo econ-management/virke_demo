@@ -1,4 +1,4 @@
-import { getRegnskapOrgnr } from '../api/getRegnskapOrgnr';
+import { getRegnskapOrgnr } from '../../logic/api/getRegnskapOrgnr';
 import { Table } from '../../components/Table';
 import { getVariableName } from '../config/kpiOptionMapper';
 import { metricFormatter } from '../config/metricFormatter';

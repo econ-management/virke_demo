@@ -20,7 +20,7 @@ interface CompanyLineChartProps {
     year: number;
     [key: string]: number | string;
   }>;
-  metric: string;
+  metric: string | null;
   sammenligne_selskaper?: {
     [index: number]: Array<{
       orgnr: number;
@@ -32,6 +32,9 @@ interface CompanyLineChartProps {
 }
 
 export const CompanyLineChart = ({ regnskap, metric, sammenligne_selskaper, selectedCompanies }: CompanyLineChartProps) => {
+  if (!metric) {
+    return null;
+  }
   const [colors, setColors] = useState({
     rosa: '#c9007f',
     orange: '#f57f00',

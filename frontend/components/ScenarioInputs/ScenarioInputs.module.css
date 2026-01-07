@@ -1,0 +1,23 @@
+.container {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.label {
+  min-width: 200px;
+}
+
+.input {
+  max-width: 50px;
+  padding: var(--spacing-xs);
+  border: 1px solid #cccccc;
+}

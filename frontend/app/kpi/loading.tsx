@@ -3,7 +3,7 @@ import { HeaderWrapper } from '../../components/HeaderWrapper';
 import { Sidebar } from '../../components/Sidebar';
 import { TwoColumnSection } from '../../components/TwoColumnSection';
 import { Footer } from '../../components/Footer';
-import pageStyles from '../page.module.css';
+import pageStyles from '@/styles/sidebar_plus_main.module.css';
 
 export default function KpiLoading() {
   return (

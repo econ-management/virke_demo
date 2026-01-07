@@ -24,14 +24,14 @@ export const Header = () => {
         </Link>
         <nav className={styles.nav}>
           <Link href={`/kpi${queryString}`} className={styles.navLink}>
-            KPI
+            Nøkkeltall
           </Link>
-          <Link href={`/vekst${queryString}`} className={styles.navLink}>
-            Vekst
+          <Link href={`/prognoser${queryString}`} className={styles.navLink}>
+            Prognoser
           </Link>
-          <span className={styles.navLink} style={{ cursor: 'default', opacity: 0.5 }}>
-            Effektivisering
-          </span>
+          
+            TBD
+          
         </nav>
       </div>
     </header>

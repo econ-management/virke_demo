@@ -24,10 +24,11 @@ interface StatsBarChartProps {
   markerValue: number;
   format: FormatterType;
   metric: string;
+  showText?: boolean;
 }
 
 
-export const StatsBarChart = ({ min, median, mean, max, markerValue, format, metric }: StatsBarChartProps) => {
+export const StatsBarChart = ({ min, median, mean, max, markerValue, format, metric, showText = true }: StatsBarChartProps) => {
   const [colors, setColors] = useState({
     rosa: '#c9007f',
     orange: '#f57f00',
@@ -109,7 +110,7 @@ export const StatsBarChart = ({ min, median, mean, max, markerValue, format, met
 
   return (
     <div className={styles.container}>
-      {statBarTexts[metric] && (
+      {showText && statBarTexts[metric] && (
         <p className={styles.statBarText} dangerouslySetInnerHTML={{ __html: getStatBarText() }} />
       )}
       <ResponsiveContainer width="100%" height={300}>

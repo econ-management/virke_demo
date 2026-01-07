@@ -6,7 +6,7 @@ import { getVariableName } from '../config/kpiOptionMapper';
 import { KpiSelector } from '../../components/KpiSelector';
 import { KpiDensityPlot } from './KpiDensityPlot';
 import { StatsBarChart } from '../../components/StatsBarChart';
-import { Dist } from '../api/getCompByNaceVar';
+import { Dist } from '../../logic/api/getCompByNaceVar';
 import { metricFormatter } from '../config/metricFormatter';
 
 interface KpiPageContentProps {

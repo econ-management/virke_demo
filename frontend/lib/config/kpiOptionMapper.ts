@@ -50,3 +50,40 @@ export const kpiOptionMapper: Record<string, KpiOptionMapping> = {
 export function getVariableName(metric: string): string | undefined {
   return kpiOptionMapper[metric]?.variable_name;
 }
+
+export interface RegnskapVariable {
+  labelName: string;
+}
+
+export const regnskapVariables: Record<string, RegnskapVariable> = {
+  driftsmargin: {
+    labelName: "Driftsmargin"
+  },
+  omsetning: {
+    labelName: "Omsetning"
+  },
+  lonn_oms: {
+    labelName: "Lønnskostnader"
+  },
+  vare_oms: {
+    labelName: "Varekostnader"
+  },
+  beholdningsendringer: {
+    labelName: "Beholdningsendringer"
+  },
+  avskrivninger: {
+    labelName: "Avskrivninger"
+  },
+  nedskrivninger: {
+    labelName: "Nedskrivninger"
+  },
+  andre_driftskostnader: {
+    labelName: "Andre driftskostnader"
+  },
+  lonnskostnader: {
+    labelName: "Lønnskostnader"
+  },
+  varekostnad: {
+    labelName: "Varekostnad"
+  }
+};

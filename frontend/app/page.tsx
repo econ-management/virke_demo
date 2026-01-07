@@ -9,9 +9,9 @@ import { Footer } from '../components/Footer';
 import { CompanySearch } from '../components/CompanySearch';
 import { InterestSelection } from '../components/InterestSelection';
 
-import { preloadKpiDataFull } from '../lib/api/preloadKpiDataFull';
+import { preloadKpiDataFull } from '../logic/api/preloadKpiDataFull';
 
-import pageStyles from './page.module.css';
+import pageStyles from '@/styles/sidebar_plus_main.module.css';
 import landingStyles from './landing.module.css';
 
 export default function LandingPage() {

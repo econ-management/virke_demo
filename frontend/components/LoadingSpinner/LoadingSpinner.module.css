@@ -24,7 +24,5 @@
 
 .text {
   margin-top: var(--spacing-md);
-  color: var(--color-text-black);
-  font-size: 1rem;
 }
 

@@ -1,21 +1,22 @@
 import { DensityPlot } from '../../components/DensityPlot';
-import { Dist } from '../api/getCompByNaceVar';
+import { Dist } from '../../logic/api/getCompByNaceVar';
 import { metricFormatter } from '../config/metricFormatter';
 import { getVariableName } from '../config/kpiOptionMapper';
 
 interface KpiDensityPlotProps {
   compData: {
     [key: string]: Dist;
-  };
+  } | null;
   regnskap: Array<{
     year: number;
     [key: string]: number | string;
   }>;
-  metric: string;
+  metric: string | null;
+  showTitle?: boolean;
 }
 
-export const KpiDensityPlot = ({ compData, regnskap, metric }: KpiDensityPlotProps) => {
-  if (!compData) {
+export const KpiDensityPlot = ({ compData, regnskap, metric, showTitle = true }: KpiDensityPlotProps) => {
+  if (!compData || !metric) {
     return null;
   }
 
@@ -51,6 +52,7 @@ export const KpiDensityPlot = ({ compData, regnskap, metric }: KpiDensityPlotPro
       title={title}
       xAxisFormat={xAxisFormat}
       markerValue={getMarkerValue()}
+      showTitle={showTitle}
     />
   );
 };

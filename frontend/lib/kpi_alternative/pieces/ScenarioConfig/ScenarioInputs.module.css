@@ -1,0 +1,68 @@
+.panel {
+  padding: 24px 0px 0px 0px;
+  background: #fff;
+  max-width: 1100px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px 24px;
+  padding: 10px;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0px;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.slider {
+  width: 100%;
+  accent-color: var(--color-contrast-blue);
+}
+
+.number {
+  width: 70px;
+  padding: 6px 8px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttonControls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  gap: 4px;
+}
+
+.controlButton {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: var(--color-signature-orange);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.controlButton:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.controlButton:active {
+  background: #e5e5e5;
+  transform: scale(0.98);
+}

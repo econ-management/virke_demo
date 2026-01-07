@@ -5,12 +5,12 @@ import { TwoColumnSection } from "../../components/TwoColumnSection";
 import { Footer } from "../../components/Footer";
 
 import { KpiPageClientWrapper } from "../../lib/components/KpiPageClientWrapper";
-import { getKpiResult } from "../../lib/api/getKpiResult";
-import { getKpiResult2 } from "../../lib/api/getKpiResult2";
+import { getKpiResult } from "../../logic/api/getKpiResult";
+import { getKpiResult2 } from "../../logic/api/getKpiResult2";
 import { kpiOptionsList } from "../../lib/config/kpiOptions";
-import { mapRegnskapToMapper } from "../../lib/utils/mapRegnskapToMapper";
+import { orgnrRegnskapMapper } from "../../lib/utils/orgnrRegnskapMapper";
 
-import pageStyles from "../page.module.css";
+import pageStyles from "@/styles/sidebar_plus_main.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -29,11 +29,11 @@ export default async function KpiPage({ searchParams }: KpiPageProps) {
   // --------------------------
   if (!orgnr) {
     return (
-      <div className={pageStyles.page}>
+      <div className={`${pageStyles.page} ${pageStyles.contentStackUntilDesktop}`}>
         <HeaderWrapper />
         <div className={pageStyles.content}>
           <Sidebar />
-          <TwoColumnSection>
+          <TwoColumnSection stackUntilDesktop={true}>
             <div>
               <h1>KPI side</h1>
               <p>Ingen virksomhet valgt. Velg en virksomhet først.</p>
@@ -60,7 +60,7 @@ export default async function KpiPage({ searchParams }: KpiPageProps) {
   console.log("SERVER RAW regnskap:", regnskap);
   const brreg = kpiBase?.brreg || [];
 
-  const mappedRegnskap = mapRegnskapToMapper(regnskap);
+  const mappedRegnskap = orgnrRegnskapMapper(regnskap);
   console.log("SERVER MAPPED regnskap:", mappedRegnskap);
   const nace = brreg?.[0]?.naring1_kode || null;
 
@@ -74,13 +74,13 @@ export default async function KpiPage({ searchParams }: KpiPageProps) {
   // 3. Render page with initial data
   // --------------------------
   return (
-    <div className={pageStyles.page}>
+    <div className={`${pageStyles.page} ${pageStyles.contentStackUntilDesktop}`}>
       <HeaderWrapper />
 
       <div className={pageStyles.content}>
         <Sidebar orgnr={orgnr} brreg={brreg} regnskap={mappedRegnskap} />
 
-        <TwoColumnSection>
+        <TwoColumnSection stackUntilDesktop={true}>
           <KpiPageClientWrapper
             orgnr={orgnr}
             regnskap={mappedRegnskap}

@@ -33,8 +33,18 @@
   --spacing-2xl: 4rem;
   
   --container-max-width: 1200px;
-  --container-padding: 2rem;
+  --container-padding: 1rem;
   --section-vertical-spacing: 2rem;
+  
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1280px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 2rem;
+  }
 }
 
 * {
@@ -70,6 +80,99 @@ h6 {
   font-family: 'Clan', Arial, sans-serif;
   font-weight: bold;
   color: var(--color-text-black);
+  margin-top: 0;
 }
 
+h1 {
+  margin-bottom: var(--spacing-lg);
+}
+
+h2 {
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-md);
+}
+
+h3 {
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+  margin-top: 0;
+  color: var(--color-text-black);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: bold;
+  color: var(--color-text-black);
+}
+
+input[type="text"],
+input[type="search"] {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-text-black);
+  font-family: 'Clan', Arial, sans-serif;
+  font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+button:focus,
+a:focus {
+  outline: 2px solid var(--color-signature-rosa);
+  outline-offset: 2px;
+}
+
+input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--color-signature-rosa);
+}
+
+button {
+  font-family: 'Clan', Arial, sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+a {
+  color: var(--color-text-black);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-signature-rosa);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: var(--spacing-sm);
+  text-align: left;
+  border-bottom: 1px solid var(--color-text-black);
+  font-weight: bold;
+  background-color: var(--color-white);
+}
+
+td {
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-text-black);
+  text-align: left;
+}
+
+.bordered {
+  border: 1px solid var(--color-text-black);
+}
 

@@ -11,13 +11,10 @@
 }
 
 .label {
-  font-weight: bold;
-  color: var(--color-text-black);
   font-size: 0.875rem;
 }
 
 .value {
-  color: var(--color-text-black);
   font-size: 0.875rem;
 }
 

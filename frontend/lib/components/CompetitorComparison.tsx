@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { CompanySearch } from '../../components/CompanySearch';
 import { CompanyLineChart } from './CompanyLineChart';
-import { getRegnskapOrgnr } from '../api/getRegnskapOrgnr';
+import { getRegnskapOrgnr } from '../../logic/api/getRegnskapOrgnr';
 
 interface CompetitorComparisonProps {
   regnskap: Array<{

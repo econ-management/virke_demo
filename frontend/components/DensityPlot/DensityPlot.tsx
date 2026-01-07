@@ -18,9 +18,10 @@ interface DensityPlotProps {
   title?: string;
   xAxisFormat?: FormatterType;
   markerValue?: number;
+  showTitle?: boolean;
 }
 
-export const DensityPlot = ({ data, title, xAxisFormat = 'numeric', markerValue }: DensityPlotProps) => {
+export const DensityPlot = ({ data, title, xAxisFormat = 'numeric', markerValue, showTitle = true }: DensityPlotProps) => {
   const [colors, setColors] = useState({
     rosa: '#c9007f',
     orange: '#f57f00',
@@ -61,7 +62,7 @@ export const DensityPlot = ({ data, title, xAxisFormat = 'numeric', markerValue 
 
   return (
     <div className={styles.container}>
-      {title && <h3 className={styles.title}>{title}</h3>}
+      {showTitle && title && <h3 className={styles.title}>{title}</h3>}
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
           data={data}

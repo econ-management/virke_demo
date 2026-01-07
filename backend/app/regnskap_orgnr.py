@@ -14,7 +14,8 @@ async def db_get_regnskap_orgnr(orgnr: str | int):
     orgnr = int(orgnr)
     query = """
         SELECT orgnr, year, driftsinntekter_sum, lonn_trygd_pensjon,
-               varekostnad, ebit
+               varekostnad, ebit, beholdningsendringer, avskrivninger,
+            nedskrivninger, andre_driftskostnader
         FROM core_facts.proff_regnskap
         WHERE orgnr = $1;
     """
@@ -23,7 +24,8 @@ async def db_get_regnskap_orgnr(orgnr: str | int):
     if not rows:
         return pd.DataFrame(columns=[
             "orgnr", "year", "driftsinntekter_sum",
-            "lonn_trygd_pensjon", "varekostnad", "ebit"
+            "lonn_trygd_pensjon", "varekostnad", "ebit", "beholdningsendringer",
+            "avskrivninger", "nedskrivninger", "andre_driftskostnader"
         ])
     df = pd.DataFrame([dict(r) for r in rows])
     return df
@@ -35,7 +37,8 @@ resultat_for_skatt, skattekostnad_ordinart, ordinaert_resultat, arsresultat, utb
 varelager_sum, kundefordringer, andre_fordringer, fordringer_sum, kontant_bank_post_sum, omlopsmidler_sum, eiendeler_sum,
 egenkapital, opptjent_egenkapital_sum, langsiktig_gjeld_sum, leverandorgjeld, kortsiktig_gjeld_sum,
  lederlonn_nok, leder_annen_godtgjoerelse, revisjonshonorar_nok, annen_revisjonsbistand, ebitda,
- driftskostnader_sum, pensjonskostnader, kontanter_bank_post, varer_sum, aarsverk, varekostnad"""
+ driftskostnader_sum, pensjonskostnader, kontanter_bank_post, varer_sum, aarsverk, varekostnad, 
+ beholdningsendringer, andre_driftskostnader"""
 
 async def get_regnskap_orgnr(orgnr):
     df = await db_get_regnskap_orgnr(orgnr)
@@ -46,7 +49,9 @@ async def get_regnskap_orgnr(orgnr):
     df['vare_oms'] = df['varekostnad'] / df['omsetning']
 
 
-    df = df[['orgnr', 'year', 'driftsmargin', 'omsetning', 'vare_oms', 'lonn_oms']].copy()
+    df = df[['orgnr', 'year', 'driftsmargin', 'omsetning', 'vare_oms', 'lonn_oms',
+             'beholdningsendringer', 'avskrivninger', 'nedskrivninger',
+             'andre_driftskostnader', 'lonnskostnader', 'varekostnad']].copy()
 
     if df.empty:
         return {"error": "No data found"}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { getForetak } from '../../lib/api/getForetak';
+import { getForetak } from '../../logic/api/getForetak';
 import styles from './CompanySearch.module.css';
 
 interface CompanySearchProps {
