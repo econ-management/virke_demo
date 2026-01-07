@@ -231,7 +231,7 @@ export function calculateLastXYearsGrowthRate(inputs: {
     }
 
     // Average annual growth rate: ((last - first) / first) / years * 100
-    return ((lastValue - firstValue) / firstValue / numberOfYears)*100;
+    return ((lastValue/ firstValue)**(1/numberOfYears)-1)*100;
   };
 
   return {
