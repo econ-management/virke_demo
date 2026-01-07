@@ -27,7 +27,7 @@ interface StatsBarChartProps {
 }
 
 
-export const StatsBarChart = ({ min, median, mean, max, markerValue, format, metric, showText = true }: StatsBarChartProps) => {
+export const StatBarChartPiece = ({ min, median, mean, max, markerValue, format, metric, showText = true }: StatsBarChartProps) => {
   const [colors, setColors] = useState({
     rosa: '#c9007f',
     orange: '#f57f00',
