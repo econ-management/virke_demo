@@ -15,7 +15,7 @@ export default function KpiLoading() {
 
         <TwoColumnSection>
           <div>
-            <h1>KPI side</h1>
+            <h1>KPI-side</h1>
             <LoadingSpinner />
           </div>
           <div></div>
